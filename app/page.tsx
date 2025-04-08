@@ -1,103 +1,121 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Search } from "lucide-react"
+import FeaturedContent from "../components/featured-content"
+import ContentCategories from "../components/content-categories"
+import RecentPublications from "../components/recent-publications"
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex min-h-screen flex-col">
+      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center justify-between py-4">
+          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
+            <span className="text-primary">Knowledge</span>Hub
+          </Link>
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="/ebooks" className="text-sm font-medium hover:text-primary">
+              eBooks
+            </Link>
+            <Link href="/articles" className="text-sm font-medium hover:text-primary">
+              Articles
+            </Link>
+            <Link href="/resources" className="text-sm font-medium hover:text-primary">
+              Resources
+            </Link>
+            <Link href="/about" className="text-sm font-medium hover:text-primary">
+              About
+            </Link>
+          </div>
+          <div className="relative hidden md:block">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input type="search" placeholder="Search content..." className="w-[200px] pl-8 md:w-[200px] lg:w-[300px]" />
+          </div>
         </div>
+      </header>
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-muted/50 to-background">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                    Discover Knowledge Resources for Growth
+                  </h1>
+                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                    Access our collection of high-quality eBooks, articles, and resources designed to help you expand
+                    your knowledge.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <Button size="lg">Browse eBooks</Button>
+                  <Button size="lg" variant="outline">
+                    Explore Articles
+                  </Button>
+                </div>
+              </div>
+              <div className="flex items-center justify-center">
+                <img
+                  src="/placeholder.svg?height=550&width=450"
+                  alt="Knowledge resources illustration"
+                  width={550}
+                  height={450}
+                  className="rounded-lg object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <FeaturedContent />
+        <ContentCategories />
+        <RecentPublications />
+
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Stay Updated</h2>
+                <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  Subscribe to our newsletter and get the latest updates on new content and resources.
+                </p>
+              </div>
+              <div className="w-full max-w-md space-y-2">
+                <div className="flex space-x-2">
+                  <Input placeholder="Enter your email" type="email" />
+                  <Button>Subscribe</Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  We respect your privacy and will never share your information.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      <footer className="border-t bg-background">
+        <div className="container flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
+          <div className="flex flex-col gap-2">
+            <Link href="/" className="flex items-center gap-2 font-bold text-xl">
+              <span className="text-primary">Knowledge</span>Hub
+            </Link>
+            <p className="text-sm text-muted-foreground">Sharing valuable knowledge resources with our community.</p>
+          </div>
+          <div className="flex flex-col gap-2 md:flex-row md:gap-4">
+            <Link href="/terms" className="text-sm hover:underline">
+              Terms of Service
+            </Link>
+            <Link href="/privacy" className="text-sm hover:underline">
+              Privacy Policy
+            </Link>
+            <Link href="/contact" className="text-sm hover:underline">
+              Contact Us
+            </Link>
+          </div>
+          <p className="text-sm text-muted-foreground">© 2025 KnowledgeHub. All rights reserved.</p>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
