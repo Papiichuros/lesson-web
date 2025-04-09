@@ -2,20 +2,17 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { BookOpen, Clock } from "lucide-react"
-
+import { TextAnimate } from "./magicui/text-animate"
 export default function FeaturedContent() {
   return (
-    <section className="w-full py-12 md:py-24">
+    <section className="w-full py-12 md:py-24 place-items-center">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <Badge variant="outline" className="border-primary/20 bg-primary/10 text-primary">
-              Featured Content
-            </Badge>
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Popular Resources</h2>
-            <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Discover our most popular eBooks and articles that readers find most valuable.
-            </p>
+            <TextAnimate className="max-w-[600px] text-muted-foreground md:text-xl">
+              {"Discover our most popular eBooks and articles that readers find most valuable."}
+            </TextAnimate>
           </div>
         </div>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
@@ -28,7 +25,7 @@ export default function FeaturedContent() {
                 height={200}
                 className="aspect-video w-full object-cover"
               />
-              <Badge className="absolute right-2 top-2">eBook</Badge>
+              <Badge className="absolute right-2 top-2 bg-blue-600">eBook</Badge>
             </div>
             <CardHeader className="flex-1">
               <CardTitle>Data Science Essentials</CardTitle>
@@ -45,12 +42,12 @@ export default function FeaturedContent() {
               </div>
             </CardContent>
             <CardFooter>
-              <Link
+                <Link
                 href="/ebooks/data-science-essentials"
-                className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-              >
+                className=" inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                >
                 Read eBook
-              </Link>
+                </Link>
             </CardFooter>
           </Card>
           <Card className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
@@ -62,7 +59,7 @@ export default function FeaturedContent() {
                 height={200}
                 className="aspect-video w-full object-cover"
               />
-              <Badge className="absolute right-2 top-2">eBook</Badge>
+              <Badge className="absolute right-2 top-2 bg-blue-600">eBook</Badge>
             </div>
             <CardHeader className="flex-1">
               <CardTitle>Modern JavaScript Guide</CardTitle>
@@ -81,7 +78,7 @@ export default function FeaturedContent() {
             <CardFooter>
               <Link
                 href="/ebooks/modern-javascript"
-                className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                className="inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               >
                 Read eBook
               </Link>
@@ -96,7 +93,7 @@ export default function FeaturedContent() {
                 height={200}
                 className="aspect-video w-full object-cover"
               />
-              <Badge className="absolute right-2 top-2">Article</Badge>
+              <Badge className="absolute right-2 top-2 bg-blue-600">Article</Badge>
             </div>
             <CardHeader className="flex-1">
               <CardTitle>UX Research Methods</CardTitle>
@@ -115,7 +112,7 @@ export default function FeaturedContent() {
             <CardFooter>
               <Link
                 href="/articles/ux-research-methods"
-                className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                className="inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               >
                 Read Article
               </Link>

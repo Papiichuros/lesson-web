@@ -43,7 +43,7 @@ export default function ContentCategories() {
   ]
 
   return (
-    <section className="w-full py-12 md:py-24 bg-muted/50">
+    <section className="w-full py-12 md:py-24 place-items-center bg-blue-200/65">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
@@ -55,7 +55,7 @@ export default function ContentCategories() {
         </div>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
           {categories.map((category, index) => (
-            <Link key={index} href={category.href} className="group">
+            <Link key={category.title} href={category.href} className="group">
               <Card className="h-full transition-all group-hover:shadow-md">
                 <CardHeader>
                   <div className="mb-2 text-primary">{category.icon}</div>

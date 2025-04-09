@@ -41,6 +41,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-line-shadow: line-shadow 15s linear infinite;
 }
 
 :root {
@@ -118,5 +119,13 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+@keyframes line-shadow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% -100%;
   }
 }

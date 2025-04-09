@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CalendarDays, Clock } from "lucide-react"
+import { TextAnimate } from "./magicui/text-animate"
 
 export default function RecentPublications() {
   const publications = [
@@ -44,19 +45,19 @@ export default function RecentPublications() {
   ]
 
   return (
-    <section className="w-full py-12 md:py-24">
+    <section className="w-full py-12 md:py-24 place-items-center">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Recently Published</h2>
-            <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            <TextAnimate className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Stay up-to-date with our latest articles and publications.
-            </p>
+            </TextAnimate>
           </div>
         </div>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2">
           {publications.map((publication, index) => (
-            <Card key={index} className="flex flex-col overflow-hidden transition-all hover:shadow-md">
+            <Card key={publication.title} className="flex flex-col overflow-hidden transition-all hover:shadow-md">
               <CardHeader className="flex-1">
                 <div className="flex items-center justify-between">
                   <Badge variant="outline">{publication.category}</Badge>
@@ -80,7 +81,7 @@ export default function RecentPublications() {
               <CardFooter>
                 <Link
                   href={publication.href}
-                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                  className="bg-blue-600 hover:bg-blue-700 inline-flex h-10 w-full items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 >
                   Read Article
                 </Link>

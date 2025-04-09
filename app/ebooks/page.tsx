@@ -84,7 +84,7 @@ export default function EbooksPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 place-items-center">
         <div className="container flex h-16 items-center justify-between py-4">
           <Link href="/" className="flex items-center gap-2 font-bold text-xl">
             <span className="text-primary">Knowledge</span>Hub
@@ -110,7 +110,7 @@ export default function EbooksPage() {
         </div>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/30">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/30 place-items-center">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -123,9 +123,9 @@ export default function EbooksPage() {
           </div>
         </section>
 
-        <section className="w-full py-12">
+        <section className="w-full py-12 place-items-center">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col gap-8 md:flex-row">
+            <div className="flex flex-col gap-20 md:flex-row">
               <div className="md:w-1/4 space-y-6">
                 <div>
                   <h3 className="text-lg font-medium mb-4">Search</h3>
@@ -240,7 +240,7 @@ export default function EbooksPage() {
           </div>
         </section>
       </main>
-      <footer className="border-t bg-background">
+      <footer className="border-t bg-background place-items-center">
         <div className="container flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex flex-col gap-2">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
