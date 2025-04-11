@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+/* Replaced @custom-variant with a standard CSS approach */
+/* Removed empty ruleset for .dark * */
 
 @theme inline {
   --color-background: var(--background);
@@ -77,6 +78,7 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --font-sans: 'Quicksand', sans-serif;
 }
 
 .dark {
@@ -118,7 +120,8 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 }
 @keyframes line-shadow {
@@ -128,4 +131,11 @@
   100% {
     background-position: 100% -100%;
   }
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 400 700;
+  src: url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 }

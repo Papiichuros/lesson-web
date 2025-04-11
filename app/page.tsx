@@ -60,24 +60,25 @@ export default function Home() {
                     </LineShadowText>
                     <br /> for Growth
                   </h1>
-                    <TextAnimate className="max-w-[600px] text-muted-foreground md:text-xl">
-                      Access our collection of high-quality eBooks, articles, and resources designed to help you expand your knowledge.
-                    </TextAnimate>
+                  <TextAnimate className="max-w-[600px] text-muted-foreground md:text-xl">
+                    Access our collection of high-quality eBooks, articles, and resources designed to help you expand your knowledge.
+                  </TextAnimate>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button size="lg" className="bg-blue-600 hover:bg-blue-700">Browse eBooks</Button>
-                  <Button size="lg" variant="outline">
+                  <Button size="lg" className="text-black bg-white hover:bg-gray-100">
                     Explore Articles
                   </Button>
                 </div>
               </div>
               <div className="flex items-center justify-center">
                 <img
-                  src="/placeholder.svg?height=550&width=450"
+                  src="/assets/study.png"
                   alt="Knowledge resources illustration"
-                  width={550}
-                  height={450}
+                  width={800}
+                  height={500}
                   className="rounded-lg object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
