@@ -1,255 +1,144 @@
 import Link from "next/link"
+import { Search, Filter, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { CalendarDays, Clock, Filter, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+// Mock data for articles
+const articles = [
+  {
+    id: 1,
+    title: "Getting Started with React",
+    slug: "getting-started-with-react",
+    author: "Jane Smith",
+    publishedDate: "April 5, 2024",
+    coverImage: "/placeholder.svg?height=400&width=600",
+    category: "Frontend",
+    readTime: "8 min read",
+    description: "Learn the basics of React and how to set up your first React application.",
+  },
+  {
+    id: 2,
+    title: "CSS Grid Layout Tutorial",
+    slug: "css-grid-layout-tutorial",
+    author: "John Doe",
+    publishedDate: "March 22, 2024",
+    coverImage: "/placeholder.svg?height=400&width=600",
+    category: "CSS",
+    readTime: "10 min read",
+    description: "Master CSS Grid Layout with this comprehensive tutorial.",
+  },
+  {
+    id: 3,
+    title: "Introduction to TypeScript",
+    slug: "introduction-to-typescript",
+    author: "Sarah Johnson",
+    publishedDate: "March 15, 2024",
+    coverImage: "/placeholder.svg?height=400&width=600",
+    category: "TypeScript",
+    readTime: "12 min read",
+    description: "Discover the benefits of TypeScript and how to use it in your projects.",
+  },
+  {
+    id: 4,
+    title: "Building RESTful APIs with Node.js",
+    slug: "building-restful-apis-with-nodejs",
+    author: "Michael Chen",
+    publishedDate: "March 10, 2024",
+    coverImage: "/placeholder.svg?height=400&width=600",
+    category: "Backend",
+    readTime: "15 min read",
+    description: "Learn how to create robust RESTful APIs using Node.js and Express.",
+  },
+  {
+    id: 5,
+    title: "Responsive Web Design Best Practices",
+    slug: "responsive-web-design-best-practices",
+    author: "Lisa Rodriguez",
+    publishedDate: "March 5, 2024",
+    coverImage: "/placeholder.svg?height=400&width=600",
+    category: "Design",
+    readTime: "9 min read",
+    description: "Implement responsive design techniques for modern web applications.",
+  },
+  {
+    id: 6,
+    title: "JavaScript Promises and Async/Await",
+    slug: "javascript-promises-and-async-await",
+    author: "David Wilson",
+    publishedDate: "February 28, 2024",
+    coverImage: "/placeholder.svg?height=400&width=600",
+    category: "JavaScript",
+    readTime: "11 min read",
+    description: "Master asynchronous programming in JavaScript with Promises and async/await.",
+  },
+]
+
 export default function ArticlesPage() {
-  const articles = [
-    {
-      title: "Introduction to React Hooks",
-      description: "Learn how to use React's built-in hooks to manage state and side effects in your applications.",
-      date: "April 2, 2025",
-      readTime: "10 min read",
-      category: "Programming",
-      href: "/articles/introduction-to-react-hooks",
-    },
-    {
-      title: "Data Visualization with D3.js",
-      description: "Create interactive and dynamic data visualizations for the web using the powerful D3.js library.",
-      date: "March 28, 2025",
-      readTime: "12 min read",
-      category: "Data Science",
-      href: "/articles/data-visualization-with-d3js",
-    },
-    {
-      title: "Responsive Design Best Practices",
-      description: "Master the techniques for creating websites that look great on any device, from mobile to desktop.",
-      date: "March 25, 2025",
-      readTime: "8 min read",
-      category: "Design",
-      href: "/articles/responsive-design-best-practices",
-    },
-    {
-      title: "Cloud Architecture Patterns",
-      description: "Design patterns and best practices for building scalable and resilient cloud applications.",
-      date: "March 20, 2025",
-      readTime: "15 min read",
-      category: "Programming",
-      href: "/articles/cloud-architecture-patterns",
-    },
-    {
-      title: "Introduction to TypeScript",
-      description: "Get started with TypeScript and learn how it improves JavaScript development with static typing.",
-      date: "March 15, 2025",
-      readTime: "10 min read",
-      category: "Programming",
-      href: "/articles/introduction-to-typescript",
-    },
-    {
-      title: "Machine Learning for Beginners",
-      description: "A gentle introduction to machine learning concepts and applications for beginners.",
-      date: "March 10, 2025",
-      readTime: "12 min read",
-      category: "Data Science",
-      href: "/articles/machine-learning-for-beginners",
-    },
-    {
-      title: "Color Theory in UI Design",
-      description:
-        "Learn how to use color effectively in your user interface designs to improve usability and aesthetics.",
-      date: "March 5, 2025",
-      readTime: "8 min read",
-      category: "Design",
-      href: "/articles/color-theory-in-ui-design",
-    },
-    {
-      title: "Serverless Architecture Explained",
-      description: "Understand the benefits and challenges of serverless architecture for modern applications.",
-      date: "March 1, 2025",
-      readTime: "14 min read",
-      category: "Programming",
-      href: "/articles/serverless-architecture-explained",
-    },
-  ]
-
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 place-items-center">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <span className="text-primary">Knowledge</span>Hub
-          </Link>
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="/ebooks" className="text-sm font-medium hover:text-primary">
-              eBooks
-            </Link>
-            <Link href="/articles" className="text-sm font-medium text-primary">
-              Articles
-            </Link>
-            <Link href="/resources" className="text-sm font-medium hover:text-primary">
-              Resources
-            </Link>
-            <Link href="/about" className="text-sm font-medium hover:text-primary">
-              About
-            </Link>
+    <div className="container mx-auto py-8 px-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Articles</h1>
+          <p className="text-gray-600">Explore our latest articles and tutorials</p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Input placeholder="Search articles..." className="pl-10" />
           </div>
-          <div className="relative hidden md:block">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search articles..."
-              className="w-[200px] pl-8 md:w-[200px] lg:w-[300px]"
+          <div className="flex gap-2">
+            <Select defaultValue="all">
+              <SelectTrigger className="w-full sm:w-36">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="frontend">Frontend</SelectItem>
+                <SelectItem value="backend">Backend</SelectItem>
+                <SelectItem value="design">Design</SelectItem>
+                <SelectItem value="javascript">JavaScript</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button variant="outline" size="icon">
+              <Filter size={18} />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {articles.map((article) => (
+          <div key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+            <img
+              src={article.coverImage || "/placeholder.svg"}
+              alt={article.title}
+              className="w-full h-48 object-cover"
             />
-          </div>
-        </div>
-      </header>
-      <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/30 place-items-center">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Browse Our Articles</h1>
-                <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                  Discover insightful articles on programming, design, data science, and more.
-                </p>
+            <div className="p-4 flex-grow">
+              <div className="flex justify-between items-center mb-2">
+                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                  {article.category}
+                </span>
+                <span className="text-xs text-gray-500">{article.readTime}</span>
               </div>
+              <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                By {article.author} • {article.publishedDate}
+              </p>
+              <p className="text-gray-700 text-sm mb-4">{article.description}</p>
+            </div>
+            <div className="p-4 border-t border-gray-100">
+              <Link href={`/articles/${article.slug}`}>
+                <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+                  <BookOpen size={16} />
+                  Read Article
+                </Button>
+              </Link>
             </div>
           </div>
-        </section>
-
-        <section className="w-full py-12 place-items-center">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col gap-20 md:flex-row">
-              <div className="md:w-1/4 space-y-6">
-                <div>
-                  <h3 className="text-lg font-medium mb-4">Search</h3>
-                  <div className="relative">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input type="search" placeholder="Search articles..." className="w-full pl-8" />
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-medium mb-4">Filters</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-sm font-medium mb-1 block">Category</label>
-                      <Select defaultValue="all">
-                        <SelectTrigger>
-                          <SelectValue placeholder="All Categories" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All Categories</SelectItem>
-                          <SelectItem value="programming">Programming</SelectItem>
-                          <SelectItem value="data-science">Data Science</SelectItem>
-                          <SelectItem value="design">Design</SelectItem>
-                          <SelectItem value="business">Business</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium mb-1 block">Date</label>
-                      <Select defaultValue="all">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Any Date" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Any Date</SelectItem>
-                          <SelectItem value="this-week">This Week</SelectItem>
-                          <SelectItem value="this-month">This Month</SelectItem>
-                          <SelectItem value="this-year">This Year</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium mb-1 block">Read Time</label>
-                      <Select defaultValue="all">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Any Length" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Any Length</SelectItem>
-                          <SelectItem value="short">Under 5 min</SelectItem>
-                          <SelectItem value="medium">5-15 min</SelectItem>
-                          <SelectItem value="long">Over 15 min</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <Button className="w-full">
-                      <Filter className="mr-2 h-4 w-4" />
-                      Apply Filters
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="md:w-3/4">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  {articles.map((article, index) => (
-                    <Card key={index} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
-                      <CardHeader className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <Badge variant="outline">{article.category}</Badge>
-                        </div>
-                        <CardTitle className="mt-2">{article.title}</CardTitle>
-                        <CardDescription>{article.description}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-center justify-between text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <CalendarDays className="h-4 w-4" />
-                            <span>{article.date}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{article.readTime}</span>
-                          </div>
-                        </div>
-                      </CardContent>
-                      <CardFooter>
-                        <Link
-                          href={article.href}
-                          className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                        >
-                          Read Article
-                        </Link>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-      <footer className="border-t bg-background place-items-center">
-        <div className="container flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
-          <div className="flex flex-col gap-2">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <span className="text-primary">Knowledge</span>Hub
-            </Link>
-            <p className="text-sm text-muted-foreground">Sharing valuable knowledge resources with our community.</p>
-          </div>
-          <div className="flex flex-col gap-2 md:flex-row md:gap-4">
-            <Link href="/terms" className="text-sm hover:underline">
-              Terms of Service
-            </Link>
-            <Link href="/privacy" className="text-sm hover:underline">
-              Privacy Policy
-            </Link>
-            <Link href="/contact" className="text-sm hover:underline">
-              Contact Us
-            </Link>
-          </div>
-          <p className="text-sm text-muted-foreground">© 2025 KnowledgeHub. All rights reserved.</p>
-        </div>
-      </footer>
+        ))}
+      </div>
     </div>
   )
 }
