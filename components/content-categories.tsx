@@ -1,73 +1,56 @@
-import {
-  BellIcon,
-  CalendarIcon,
-  FileTextIcon,
-  GlobeIcon,
-  InputIcon,
-} from "@radix-ui/react-icons";
-
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
+import { BookType, Newspaper, BookImage, StickyNote } from "lucide-react"
 
 const features = [
   {
-    Icon: FileTextIcon,
-    name: "Save your files",
-    description: "We automatically save your files as you type.",
+    Icon: BookType,
+    name: "E-Books",
+    description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
     background: <img className="absolute -right-20 -top-20 opacity-60" alt="" />,
-    className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+    className: "col-span-3 lg:col-span-1",
   },
   {
-    Icon: InputIcon,
-    name: "Full text search",
-    description: "Search through all your files in one place.",
+    Icon: Newspaper,
+    name: "Articles",
+    description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
     background: <img className="absolute -right-20 -top-20 opacity-60" alt="" />,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+    className: "col-span-3 lg:col-span-2",
   },
   {
-    Icon: GlobeIcon,
-    name: "Multilingual",
-    description: "Supports 100+ languages and counting.",
+    Icon: BookImage,
+    name: "Magazines",
+    description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
     background: <img className="absolute -right-20 -top-20 opacity-60" alt="" />,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+    className: "col-span-3 lg:col-span-2",
   },
   {
-    Icon: CalendarIcon,
-    name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
+    Icon: StickyNote,
+    name: "Blogs",
+    description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
     background: <img className="absolute -right-20 -top-20 opacity-60" alt="" />,
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
-  },
-  {
-    Icon: BellIcon,
-    name: "Notifications",
-    description:
-      "Get notified when someone shares a file or mentions you in a comment.",
-    href: "/",
-    cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" alt="" />,
-      className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
+    className: "col-span-3 lg:col-span-1",
   },
 ];
 
 export function ContentCategories() {
   return (
-    <section className="container py-12 md:py-24 lg:py-32 flex flex-col place-items-center ml-auto mr-auto">
-      <h2 className="text-3xl md:text-4xl font-bold mb-8">Featured Content</h2>
-      <p className="text-lg md:text-xl text-gray-600 mb-12">
-      Explore our features designed to make your experience seamless and efficient.
+    <section className="container max-w-7xl py-8 md:py-16 lg:py-20 flex flex-col place-items-center ml-auto mr-auto">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6">Categories</h2>
+      <p className="text-base md:text-lg text-gray-600 mb-8 text-center">
+        Explore our features designed to make your experience seamless and efficient.
       </p>
-      <BentoGrid className="lg:grid-rows-3">
-      {features.map((feature) => (
-        <BentoCard key={feature.name} {...feature} />
-      ))}
+      <BentoGrid className="lg:grid-rows gap-4">
+        {features.map((feature) => (
+          <BentoCard key={feature.name} {...feature} />
+        ))}
       </BentoGrid>
     </section>
   );

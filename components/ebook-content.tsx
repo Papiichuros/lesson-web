@@ -34,10 +34,7 @@ export default function EbookContent({ ebook }: { readonly ebook: Ebook }) {
     }
   }
 
-  const goToChapter = (index: number) => {
-    setCurrentChapterIndex(index)
-    window.scrollTo(0, 0)
-  }
+  // Removed unused goToChapter function
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 md:p-8">

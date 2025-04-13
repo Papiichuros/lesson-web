@@ -119,7 +119,7 @@ export default function FeaturedContent() {
 
   return (
     <section className="py-16 bg-slate-50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
             <h2 className="text-3xl font-bold mb-2">Featured Content</h2>
@@ -180,7 +180,7 @@ export default function FeaturedContent() {
                   <p className="text-slate-700 mb-6">{item.description}</p>
                   <div>
                     <Link href={item.type === "ebook" ? `/ebooks/${item.slug}` : `/articles/${item.slug}`}>
-                      <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700">
+                      <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">
                         {item.type === "ebook" ? <BookOpen size={16} /> : <FileText size={16} />}
                         Read {item.type === "ebook" ? "eBook" : "Article"}
                       </Button>

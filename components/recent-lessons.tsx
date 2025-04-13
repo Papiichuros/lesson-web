@@ -52,7 +52,7 @@ export default function RecentLessons() {
         </div>
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2">
           {lessons.map((lesson, index) => (
-            <Card key={index} className="flex flex-col overflow-hidden transition-all hover:shadow-md">
+            <Card key={lesson.title} className="flex flex-col overflow-hidden transition-all hover:shadow-md">
               <CardHeader className="flex-1">
                 <div className="flex items-center justify-between">
                   <Badge variant="outline">{lesson.category}</Badge>

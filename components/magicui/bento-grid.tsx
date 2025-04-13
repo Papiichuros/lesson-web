@@ -1,6 +1,6 @@
-import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { ChevronRight } from "lucide-react";
 import { ComponentPropsWithoutRef, ReactNode } from "react";
-
+import { InteractiveHoverButton } from "./interactive-hover-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +61,7 @@ const BentoCard = ({
       <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
         {name}
       </h3>
-      <p className="max-w-lg text-neutral-400">{description}</p>
+      <p className="max-w-lg text-slate-500/60">{description}</p>
     </div>
 
     <div
@@ -69,10 +69,10 @@ const BentoCard = ({
         "pointer-events-none absolute bottom-0 flex w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100",
       )}
     >
-      <Button variant="ghost" asChild size="sm" className="pointer-events-auto">
+      <Button asChild size="sm" className="pointer-events-auto bg-blue-600 hover:bg-blue-700 text-white">
         <a href={href}>
           {cta}
-          <ArrowRightIcon className="ms-2 h-4 w-4 rtl:rotate-180" />
+          <ChevronRight className="ms-2 h-4 w-4 rtl:rotate-180" />
         </a>
       </Button>
     </div>

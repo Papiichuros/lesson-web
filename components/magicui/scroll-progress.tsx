@@ -16,11 +16,12 @@ export const ScrollProgress = React.forwardRef<
     <motion.div
       ref={ref}
       className={cn(
-        "fixed inset-x-0 top-0 z-50 h-px origin-left bg-gradient-to-r from-[#0e4cf5b9] via-[#F38CB8] to-[#FDCC92]",
+        "fixed inset-x-0 top-0 z-50 origin-left bg-gradient-to-r from-[#0000FF] via-[#00FFFF] to-[#89CFF0]",
         className,
       )}
       style={{
         scaleX: scrollYProgress,
+        height: "2px", // Adjust the thickness of the line here
       }}
       {...props}
     />

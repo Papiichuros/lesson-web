@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { CalendarDays, Clock } from "lucide-react"
 import { TextAnimate } from "./magicui/text-animate"
+import { InteractiveHoverButton } from "./magicui/interactive-hover-button"
 
 export default function RecentPublications() {
   const publications = [
@@ -50,12 +51,12 @@ export default function RecentPublications() {
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Recently Published</h2>
-            <TextAnimate className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            <TextAnimate className="max-w-[700px] text-slate-500/60 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Stay up-to-date with our latest articles and publications.
             </TextAnimate>
           </div>
         </div>
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 py-12 md:grid-cols-2">
           {publications.map((publication, index) => (
             <Card key={publication.title} className="flex flex-col overflow-hidden transition-all hover:shadow-md">
               <CardHeader className="flex-1">
@@ -79,12 +80,12 @@ export default function RecentPublications() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link
-                  href={publication.href}
-                  className="bg-blue-600 hover:bg-blue-700 inline-flex h-10 w-full items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                >
+                
+              <Link href={publication.href} passHref>
+                <InteractiveHoverButton>
                   Read Article
-                </Link>
+                </InteractiveHoverButton>
+              </Link>
               </CardFooter>
             </Card>
           ))}
