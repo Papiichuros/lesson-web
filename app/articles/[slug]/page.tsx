@@ -201,7 +201,13 @@ function App() {
   },
 ]
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+type ArticlePageParams = {
+  params: {
+    slug: string
+  }
+}
+
+export default async function ArticlePage({ params }: ArticlePageParams) {
   const { slug } = params
   const article = articles.find((article) => article.slug === slug)
 
@@ -212,7 +218,10 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   return (
     <div className="container mx-auto py-8 px-4">
       <article className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
-        <div className="prose prose-slate max-w-none" dangerouslySetInnerHTML={{ __html: article.content }} />
+        <div
+          className="prose prose-slate max-w-none"
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
       </article>
     </div>
   )
