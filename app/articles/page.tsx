@@ -114,7 +114,8 @@ export default function ArticlesPage() {
             <Image
               src={article.coverImage || "/placeholder.svg"}
               alt={article.title}
-              className="w-full h-48 object-cover"
+              fill
+              className="object-cover rounded-t-lg"
             />
             <div className="p-4 flex-grow">
               <div className="flex justify-between items-center mb-2">

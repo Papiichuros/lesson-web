@@ -9,7 +9,7 @@ const features = [
     description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
-    background: <Image src="/path-to-image.jpg" className="absolute -right-20 -top-20 opacity-60" alt="Background" />,
+    background: <Image src="/assets/study.png" width={500} height={500} className="absolute -right-20 -top-20 opacity-60" alt="Background" />,
     className: "col-span-3 lg:col-span-1",
   },
   {
@@ -18,7 +18,7 @@ const features = [
     description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
-    background: <Image src="/path-to-image.jpg" className="absolute -right-20 -top-20 opacity-60" alt="" />,
+    background: <Image src="/assets/study.png" width={500} height={500} className="absolute -right-20 -top-20 opacity-60" alt="" />,
     className: "col-span-3 lg:col-span-2",
   },
   {
@@ -27,7 +27,7 @@ const features = [
     description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
-    background: <Image src="/path-to-image.jpg" className="absolute -right-20 -top-20 opacity-60" alt="" />,
+    background: <Image src="/assets/study.png" width={500} height={500} className="absolute -right-20 -top-20 opacity-60" alt="" />,
     className: "col-span-3 lg:col-span-2",
   },
   {
@@ -36,7 +36,7 @@ const features = [
     description: "Discover a wide range of e-books to enhance your knowledge and skills.",
     href: "/",
     cta: "Learn more",
-    background: <Image src="/path-to-image.jpg" className="absolute -right-20 -top-20 opacity-60" alt="" />,
+    background: <Image src="/assets/study.png" width={500} height={500} className="absolute -right-20 -top-20 opacity-60" alt="" />,
     className: "col-span-3 lg:col-span-1",
   },
 ];

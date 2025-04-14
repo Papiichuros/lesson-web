@@ -187,7 +187,7 @@ export default function CoursesPage() {
                           alt={course.title}
                           width={400}
                           height={200}
-                          className="aspect-video w-full object-cover"
+                          className="object-cover rounded-md"
                         />
                         <div className="absolute right-2 top-2 flex gap-2">
                           <Badge>{course.level}</Badge>

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react"
 import Link from "next/link"
-import {ChevronLeft, ChevronRight, BookOpen, FileText } from "lucide-react"
+import { ChevronLeft, ChevronRight, BookOpen, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { TimerProgress } from "@/components/timer-progress"
@@ -118,6 +118,11 @@ export default function FeaturedContent() {
     setIsTimerRunning(true)
   }
 
+  const extractSize = (url: string, key: "width" | "height", fallback: number): number => {
+    const match = url.match(new RegExp(`${key}=([0-9]+)`));
+    return match ? parseInt(match[1], 10) : fallback;
+  };
+
   return (
     <section className="py-16 bg-slate-50">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -169,9 +174,8 @@ export default function FeaturedContent() {
                 <div className="p-8 md:p-12 flex flex-col justify-center">
                   <div className="mb-4">
                     <span
-                      className={`inline-block text-sm px-3 py-1 rounded-full ${
-                        item.type === "ebook" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
-                      }`}
+                      className={`inline-block text-sm px-3 py-1 rounded-full ${item.type === "ebook" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
+                        }`}
                     >
                       {item.type === "ebook" ? "eBook" : "Article"}
                     </span>
@@ -190,7 +194,9 @@ export default function FeaturedContent() {
                 </div>
                 <div className="hidden md:flex items-center justify-center bg-slate-100 p-8">
                   <Image
-                    src={item.coverImage || "/placeholder.svg"}
+                    src={item.coverImage || "/assets/study.png"}
+                    width={extractSize(item.coverImage, "width", 300)}
+                    height={extractSize(item.coverImage, "height", 400)}
                     alt={item.title}
                     className="max-h-80 object-contain rounded-md shadow-md"
                   />

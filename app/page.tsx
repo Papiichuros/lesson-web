@@ -63,7 +63,7 @@ export default function Home() {
               </div>
               <div className="flex items-center justify-center">
                 <Image
-                  src="assets/study.png?height=550&width=450"
+                  src="/assets/study.png"
                   alt="Knowledge resources illustration"
                   width={550}
                   height={450}
