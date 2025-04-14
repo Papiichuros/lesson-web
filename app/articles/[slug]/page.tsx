@@ -201,8 +201,8 @@ function App() {
   },
 ]
 
-export default async function ArticlePage({ params }: { readonly params: Promise<{ readonly slug: string }> }) {
-  const { slug } = await params
+export default async function ArticlePage({ params }: { readonly params: { readonly slug: string } }) {
+  const { slug } = params
   const article = articles.find((article) => article.slug === slug)
 
   if (!article) {
