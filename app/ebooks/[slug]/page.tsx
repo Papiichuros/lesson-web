@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import EbookContent from "@/components/ebook-content"
 import EbookTableOfContents from "@/components/ebook-table-of-contents"
 import React from 'react';
+import Image from "next/image"
 
 // Mock data for eBooks
 const ebooks = [
@@ -189,7 +190,7 @@ export default function EbookPage({ params }: { readonly params: { readonly slug
         <div className="md:col-span-1">
           <div className="sticky top-24">
             <div className="flex flex-col items-center mb-6">
-              <img
+              <Image
                 src={ebook.coverImage || "/placeholder.svg"}
                 alt={ebook.title}
                 className="w-48 h-64 object-cover rounded-md shadow-md mb-4"

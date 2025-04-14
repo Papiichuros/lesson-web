@@ -6,6 +6,7 @@ import {ChevronLeft, ChevronRight, BookOpen, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { TimerProgress } from "@/components/timer-progress"
+import Image from "next/image"
 
 // Mock data for featured content
 const featuredContent = [
@@ -69,7 +70,7 @@ export default function FeaturedContent() {
       // Resume the timer after animation completes
       setIsTimerRunning(true)
     }, 500)
-  }, [isAnimating, featuredContent.length])
+  }, [isAnimating])
 
   // Update the prevSlide function similarly
   const prevSlide = useCallback(() => {
@@ -86,7 +87,7 @@ export default function FeaturedContent() {
       // Resume the timer after animation completes
       setIsTimerRunning(true)
     }, 500)
-  }, [isAnimating, featuredContent.length])
+  }, [isAnimating])
 
   // Update the goToSlide function similarly
   const goToSlide = useCallback(
@@ -188,7 +189,7 @@ export default function FeaturedContent() {
                   </div>
                 </div>
                 <div className="hidden md:flex items-center justify-center bg-slate-100 p-8">
-                  <img
+                  <Image
                     src={item.coverImage || "/placeholder.svg"}
                     alt={item.title}
                     className="max-h-80 object-contain rounded-md shadow-md"

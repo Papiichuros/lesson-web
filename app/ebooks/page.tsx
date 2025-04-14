@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { BookOpen, Filter, Search, Star } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Image from "next/image"
 
 export default function EbooksPage() {
   const ebooks = [
@@ -195,9 +196,9 @@ export default function EbooksPage() {
               <div className="md:w-3/4">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {ebooks.map((ebook, index) => (
-                    <Card key={index} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
+                    <Card key={ebook.title} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
                       <div className="relative">
-                        <img
+                        <Image
                           src="/placeholder.svg?height=200&width=400"
                           alt={ebook.title}
                           width={400}

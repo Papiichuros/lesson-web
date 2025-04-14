@@ -3,6 +3,7 @@ import { Search, Filter, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Image from "next/image"
 
 // Mock data for articles
 const articles = [
@@ -110,7 +111,7 @@ export default function ArticlesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((article) => (
           <div key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-            <img
+            <Image
               src={article.coverImage || "/placeholder.svg"}
               alt={article.title}
               className="w-full h-48 object-cover"

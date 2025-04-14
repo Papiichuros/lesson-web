@@ -9,6 +9,7 @@ import { TextAnimate } from "@/components/magicui/text-animate"
 import { AnimatedSubscribeButton } from "@/components/magicui/animated-subscribe-button"
 import { ScrollProgress } from "@/components/magicui/scroll-progress"
 import { SparklesText } from "@/components/magicui/sparkles-text"
+import Image from "next/image"
 
 export default function Home() {
   return (
@@ -61,7 +62,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <img
+                <Image
                   src="assets/study.png?height=550&width=450"
                   alt="Knowledge resources illustration"
                   width={550}

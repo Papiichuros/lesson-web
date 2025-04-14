@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Clock, Filter, Search, Users } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Image from "next/image"
 
 export default function CoursesPage() {
   const courses = [
@@ -179,9 +180,9 @@ export default function CoursesPage() {
               <div className="md:w-3/4">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
                   {courses.map((course, index) => (
-                    <Card key={index} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
+                    <Card key={course.title} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
                       <div className="relative">
-                        <img
+                        <Image
                           src="/placeholder.svg?height=200&width=400"
                           alt={course.title}
                           width={400}
