@@ -201,7 +201,7 @@ function App() {
   },
 ]
 
-export default function ArticlePage({ params }: { readonly params: { readonly slug: string } }) {
+export default function ArticlePage({ params }: { params: { slug: string } }) {
   const article = articles.find((article) => article.slug === params.slug)
 
   if (!article) {
