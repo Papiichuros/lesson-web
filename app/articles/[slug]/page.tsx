@@ -202,8 +202,8 @@ function App() {
 ]
 
 type ArticlePageParams = {
-  params: {
-    slug: string
+  readonly params: {
+    readonly slug: string
   }
 }
 
