@@ -34,8 +34,6 @@ export default function EbookContent({ ebook }: { readonly ebook: Ebook }) {
     }
   }
 
-  // Removed unused goToChapter function
-
   return (
     <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
       <div className="prose prose-slate max-w-none" dangerouslySetInnerHTML={{ __html: currentChapter.content }} />

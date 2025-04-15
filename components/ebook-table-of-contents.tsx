@@ -47,6 +47,6 @@ export default function EbookTableOfContents({ ebook }: { readonly ebook: Ebook 
           ))}
         </ul>
       )}
-        </div>
-      )
-    }
+    </div>
+  )
+}

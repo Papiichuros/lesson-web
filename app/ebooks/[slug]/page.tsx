@@ -1,12 +1,31 @@
-import { notFound } from "next/navigation"
+"use client"
+
+import { useParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import Image from "next/image"
 import EbookContent from "@/components/ebook-content"
 import EbookTableOfContents from "@/components/ebook-table-of-contents"
-import React from 'react';
-import Image from "next/image"
-import { useParams } from "next/navigation";
+
+// Define proper types for our data
+interface Chapter {
+  id: string
+  title: string
+  content: string
+}
+
+interface Ebook {
+  id: string
+  title: string
+  slug: string
+  coverImage: string
+  description: string
+  author: string
+  publishedDate: string
+  chapters: Chapter[]
+}
 
 // Mock data for eBooks
-const ebooks = [
+const ebooks: Ebook[] = [
   {
     id: "web-development-fundamentals",
     title: "Web Development Fundamentals",
@@ -176,17 +195,44 @@ export default function Home() {
       },
     ],
   },
-];
+]
 
-interface Params {
-  slug: string;
-}
+export default function EbookPage() {
+  const params = useParams<{ slug: string }>()
+  const [ebook, setEbook] = useState<Ebook | null>(null)
+  const [notFound404, setNotFound404] = useState(false)
 
-export default function EbookPage({ params }: { params: Params }) {
-  const ebook = ebooks.find((ebook) => ebook.slug === params.slug)
+  useEffect(() => {
+    // Find the ebook based on the slug from params
+    if (params && params.slug) {
+      const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug
+      const foundEbook = ebooks.find((ebook) => ebook.slug === slug)
 
+      if (foundEbook) {
+        setEbook(foundEbook)
+      } else {
+        setNotFound404(true)
+      }
+    }
+  }, [params])
+
+  // Handle not found case
+  if (notFound404) {
+    return (
+      <div className="container mx-auto py-8 px-4 text-center">
+        <h1 className="text-3xl font-bold mb-4">eBook Not Found</h1>
+        <p className="text-gray-600">The eBook you're looking for doesn't exist.</p>
+      </div>
+    )
+  }
+
+  // Show loading state while ebook is being fetched
   if (!ebook) {
-    notFound()
+    return (
+      <div className="container mx-auto py-8 px-4 text-center">
+        <p>Loading eBook...</p>
+      </div>
+    )
   }
 
   return (
@@ -195,12 +241,15 @@ export default function EbookPage({ params }: { params: Params }) {
         <div className="md:col-span-1">
           <div className="sticky top-24">
             <div className="flex flex-col items-center mb-6">
-              <Image
-                src={ebook.coverImage || "/placeholder.svg"}
-                alt={ebook.title}
-                className="w-48 h-64 object-cover rounded-md shadow-md mb-4"
-              />
-              <h2 className="text-xl font-semibold">{ebook.title}</h2>
+              <div className="relative w-48 h-64">
+                <Image
+                  src={ebook.coverImage || "/placeholder.svg"}
+                  alt={ebook.title}
+                  fill
+                  className="object-cover rounded-md shadow-md"
+                />
+              </div>
+              <h2 className="text-xl font-semibold mt-4">{ebook.title}</h2>
               <p className="text-sm text-gray-600">By {ebook.author}</p>
               <p className="text-xs text-gray-500">{ebook.publishedDate}</p>
             </div>
