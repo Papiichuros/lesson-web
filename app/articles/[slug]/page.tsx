@@ -201,12 +201,15 @@ function App() {
   },
 ]
 
-// Fix: Use the correct type for Next.js App Router page props
-type Params = {
-  slug: string
+// Define the correct type for Next.js 15 dynamic route params
+type Props = {
+  params: {
+    slug: string
+  }
+  searchParams: Record<string, string | string[] | undefined>
 }
 
-export default function ArticlePage({ params }: { params: Params }) {
+export default function ArticlePage({ params }: Props) {
   const { slug } = params
   const article = articles.find((article) => article.slug === slug)
 
