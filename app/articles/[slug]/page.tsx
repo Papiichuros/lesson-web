@@ -201,13 +201,12 @@ function App() {
   },
 ]
 
-type ArticlePageParams = {
-  readonly params: {
-    readonly slug: string
-  }
+// Fix: Use the correct type for Next.js App Router page props
+type Params = {
+  slug: string
 }
 
-export default async function ArticlePage({ params }: ArticlePageParams) {
+export default function ArticlePage({ params }: { params: Params }) {
   const { slug } = params
   const article = articles.find((article) => article.slug === slug)
 
@@ -218,10 +217,7 @@ export default async function ArticlePage({ params }: ArticlePageParams) {
   return (
     <div className="container mx-auto py-8 px-4">
       <article className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
-        <div
-          className="prose prose-slate max-w-none"
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
+        <div className="prose prose-slate max-w-none" dangerouslySetInnerHTML={{ __html: article.content }} />
       </article>
     </div>
   )
