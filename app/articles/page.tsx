@@ -111,12 +111,10 @@ export default function ArticlesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((article) => (
           <div key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-            <Image
-              src={article.coverImage || "/placeholder.svg"}
-              alt={article.title}
-              fill
-              className="object-cover rounded-t-lg"
-            />
+            {/* Fixed: Added position-relative and height to the image container */}
+            <div className="relative w-full h-48">
+              <Image src={article.coverImage || "/placeholder.svg"} alt={article.title} fill className="object-cover" />
+            </div>
             <div className="p-4 flex-grow">
               <div className="flex justify-between items-center mb-2">
                 <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
