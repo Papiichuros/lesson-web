@@ -195,7 +195,7 @@ export default function EbooksPage() {
 
               <div className="md:w-3/4">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {ebooks.map((ebook, index) => (
+                  {ebooks.map((ebook) => (
                     <Card key={ebook.title} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
                       <div className="relative">
                         <Image

@@ -3,6 +3,7 @@ import EbookContent from "@/components/ebook-content"
 import EbookTableOfContents from "@/components/ebook-table-of-contents"
 import React from 'react';
 import Image from "next/image"
+import { useParams } from "next/navigation";
 
 // Mock data for eBooks
 const ebooks = [
@@ -177,7 +178,11 @@ export default function Home() {
   },
 ];
 
-export default function EbookPage({ params }: { readonly params: { readonly slug: string } }) {
+interface Params {
+  slug: string;
+}
+
+export default function EbookPage({ params }: { params: Params }) {
   const ebook = ebooks.find((ebook) => ebook.slug === params.slug)
 
   if (!ebook) {
