@@ -29,34 +29,78 @@ export default function Home() {
   const [showSignIn, setShowSignIn] = useState(false)
   const [showSignUp, setShowSignUp] = useState(false)
   const { theme } = useTheme();
+  const [activeButton, setActiveButton] = useState("ebooks"); // For navigation links
+  const [activeAuthButton, setActiveAuthButton] = useState("signIn"); // For Sign In/Sign Up buttons
+  const buttonData = [
+    { id: "ebooks", label: "eBooks", href: "/ebooks" },
+    { id: "articles", label: "Articles", href: "/articles" },
+    { id: "resources", label: "Resources", href: "/resources" },
+    { id: "about", label: "About", href: "/about" },
+  ]
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 place-items-center">
+      <header className="sticky top-0 z-10 supports-[backdrop-filter]:bg-background/60 place-items-center">
         <ScrollProgress className="top-[65px]" />
         <div className="container flex h-16 items-center justify-between py-4 max-w-7xl">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <span className="text-primary">Knowledge</span>Hub
+          <Link href="/" className="flex items-center gap-2 font-bold text-xl bg-white rounded-xl px-3 py-2 border border-border w-fit">
+            <span className="text-primary">Knowledge Hub</span>
           </Link>
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="/ebooks" className="text-sm font-medium hover:text-primary">
-              eBooks
-            </Link>
-            <Link href="/articles" className="text-sm font-medium hover:text-primary">
-              Articles
-            </Link>
-            <Link href="/resources" className="text-sm font-medium hover:text-primary">
-              Resources
-            </Link>
-            <Link href="/about" className="text-sm font-medium hover:text-primary">
-              About
-            </Link>
+          <div
+            className="relative flex items-center gap-10 bg-white px-7 py-3 rounded-xl px-3 py-2 border border-border w-fit"
+          >
+            {/* Sliding Background */}
+            <div
+              className={`absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-all duration-300 ${activeButton ? "opacity-100" : "opacity-0"
+                }`}
+              style={{
+                willChange: "auto", // Inform the browser that opacity and transform will change
+                width: `${100 / buttonData.length}%`, // Dynamically set the width to match the button width
+                transform: `translateX(${buttonData.findIndex((button) => button.id === activeButton) * 100}%)`,
+              }}
+            ></div>
+
+            {/* Navigation Links */}
+            {buttonData.map((button) => (
+              <button
+                key={button.id}
+                className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${activeButton === button.id ? "text-white" : "text-gray-500 hover:text-white"
+                  }`}
+                onMouseEnter={() => setActiveButton(button.id)} // Set activeButton when hovering over a button
+              >
+                {button.label}
+              </button>
+            ))}
           </div>
-          <div className="flex items-center gap-4">
-            <Button size="sm" variant="outline" onClick={() => setShowSignIn(true)}>
+          <div className="relative flex items-center gap-4 bg-white rounded-xl px-2 py-1 border border-border w-fit">
+            {/* Sliding Background */}
+            <div
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-transform duration-300"
+              style={{
+                width: `${50}%`, // Assuming two buttons, each takes 50% of the container
+                transform: `translateX(${activeAuthButton === "signIn" ? 0 : 100}%)`,
+              }}
+            ></div>
+
+            {/* Sign In Button */}
+            <Button
+              size="sm"
+              className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signIn" ? "text-white" : "text-gray-700 hover:text-black"
+                }`}
+              onMouseEnter={() => setActiveAuthButton("signIn")}
+              onClick={() => setShowSignIn(true)}
+            >
               Sign In
             </Button>
-            <Button size="sm" onClick={() => setShowSignUp(true)}>
+
+            {/* Sign Up Button */}
+            <Button
+              size="sm"
+              className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signUp" ? "text-white" : "text-gray-700 hover:text-black"
+                }`}
+              onMouseEnter={() => setActiveAuthButton("signUp")}
+              onClick={() => setShowSignUp(true)}
+            >
               Sign Up
             </Button>
           </div>
@@ -77,11 +121,12 @@ export default function Home() {
                   </TextAnimate>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                    Browse eBooks
-                  </Button>
-                  <Button size="lg" variant="outline" className="bg-white hover:bg-slate-300/20">
-                    Explore Articles
+                  <Button
+                    size="lg"
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-blue-700 text-white group"
+                  >
+                    Get Started
+                    <ChevronRightIcon className="transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </div>
               </div>
@@ -187,11 +232,11 @@ export default function Home() {
                   </div>
                 </form>
               </CardContent>
-              <CardFooter className="p-4 border-t border-border [.border-t]:pt-4">
+              <CardFooter className=" grid grid-cols-2 border-b border-border p-4 [.border-b]:pb-4">
                 <Button variant="outline" onClick={() => setShowSignIn(false)}>
                   Cancel
                 </Button>
-                <Button className="w-full">Sign In</Button>
+                <Button>Sign In</Button>
               </CardFooter>
             </MagicCard>
           </Card>
@@ -210,9 +255,9 @@ export default function Home() {
               >
                 <CardHeader className="border-b border-border p-4 [.border-b]:pb-4">
                   <CardTitle>Sign Up</CardTitle>
-                    <CardDescription>
+                  <CardDescription>
                     Create a new account to start your journey with us
-                    </CardDescription>
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4">
                   <form>
