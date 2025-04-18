@@ -5,7 +5,7 @@ import { useTheme } from "next-themes" // Adjust the import path based on your p
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, ChevronRightIcon, CheckIcon } from "lucide-react"
+import { ChevronRightIcon, CheckIcon } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import FeaturedContentSlideshow from "@/components/featured-content"
 import { ContentCategories } from "@/components/content-categories"
@@ -141,9 +141,8 @@ export default function Home() {
             {/* Mobile Menu */}
             {showMobileMenu && (
               <div
-                className={`absolute top-16 left-0 w-full bg-white shadow-lg rounded-lg p-4 z-[200] transition-all duration-300 ease-in-out ${
-                  showMobileMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"
-                }`}
+                className={`absolute top-16 left-0 w-full bg-white shadow-lg rounded-lg p-4 z-[200] transition-all duration-300 ease-in-out ${showMobileMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"
+                  }`}
               >
                 {/* Header with Title and Close Button */}
                 <div className="flex justify-between items-center">
@@ -167,7 +166,7 @@ export default function Home() {
                 </div>
 
                 {/* Menu Content */}
-                <div className="flex flex-col gap-4 mt-4">
+                <div className="flex flex-col gap-4 mt-4 ">
                   {buttonData.map((button) => (
                     <button
                       key={button.id}
@@ -327,20 +326,29 @@ export default function Home() {
                     <div className="grid gap-4">
                       <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="Enter your email" className="text-slate-400" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="Enter your email"
+                          className="placeholder:text-slate-400 text-black  border-slate-400"
+                        />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" placeholder="Enter your password" className="text-slate-400" />
+                        <Input
+                          id="password"
+                          type="password"
+                          placeholder="Enter your password"
+                          className="placeholder:text-slate-400 text-black  border-slate-400" />
                       </div>
                     </div>
                   </form>
                 </CardContent>
-                <CardFooter className=" grid grid-cols-2 border-b border-border p-4 [.border-b]:pb-4">
-                  <Button variant="outline" onClick={() => setShowSignIn(false)}>
+                <CardFooter className=" grid grid-cols-2 gap-3  border-b border-border p-4 [.border-b]:pb-4">
+                  <Button variant="outline" className="bg-white hover:bg-slate-200 hover:shadow-lg"  onClick={() => setShowSignIn(false)}>
                     Cancel
                   </Button>
-                  <Button>Sign In</Button>
+                  <Button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:text-slate-200 hover:shadow-lgbg-gradient-to-r from-blue-500 to-purple-500 text-white hover:text-slate-200 hover:shadow-lg">Sign In</Button>
                 </CardFooter>
               </MagicCard>
             </Card>
@@ -368,24 +376,44 @@ export default function Home() {
                     <div className="grid gap-4">
                       <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="Enter your email" className="text-slate-400" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="Enter your email"
+                          className="placeholder:text-slate-400 text-black  border-slate-400"
+                        />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
-                        <Input id="name" type="name" placeholder="Enter your name" className="text-slate-400" />
+                        <Input 
+                        id="name" type="name" 
+                        placeholder="Enter your name" 
+                        className="placeholder:text-slate-400 text-black  border-slate-400" />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" placeholder="Enter your password" className="text-slate-400" />
+                        <Input
+                          id="password"
+                          type="password"
+                          placeholder="Enter your password"
+                          className="placeholder:text-slate-400 text-black  border-slate-400" />
                       </div>
                     </div>
                   </form>
                 </CardContent>
-                <CardFooter className="p-4 border-t border-border [.border-t]:pt-4">
-                  <Button variant="outline" onClick={() => setShowSignUp(false)}>
-                    Cancel
+                <CardFooter className=" grid grid-cols-2 gap-3 p-4 border-t border-border [.border-t]:pt-4">
+                  <Button 
+                  variant="outline" 
+                  className="bg-white hover:bg-slate-200 hover:shadow-lg" 
+                  onClick={() => setShowSignUp(false)}
+                  >
+                  Cancel
                   </Button>
-                  <Button className="w-full">Sign Up</Button>
+                  <Button 
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:text-slate-200 hover:shadow-lg"
+                  >
+                  Sign Up
+                  </Button>
                 </CardFooter>
               </MagicCard>
             </Card>
