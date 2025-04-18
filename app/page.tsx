@@ -29,6 +29,7 @@ export default function Home() {
   const [showSignIn, setShowSignIn] = useState(false)
   const [showSignUp, setShowSignUp] = useState(false)
   const { theme } = useTheme();
+  const [showMobileMenu, setShowMobileMenu] = useState(false); // State for mobile menu visibility
   const [activeButton, setActiveButton] = useState("ebooks"); // For navigation links
   const [activeAuthButton, setActiveAuthButton] = useState("signIn"); // For Sign In/Sign Up buttons
   const buttonData = [
@@ -43,71 +44,173 @@ export default function Home() {
       <header className="sticky top-0 z-10 supports-[backdrop-filter]:bg-background/60 place-items-center">
         <ScrollProgress className="top-[65px]" />
         <div className="container flex h-16 items-center justify-between py-4 max-w-7xl">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl bg-white rounded-xl px-3 py-2 border border-border w-fit">
-            <span className="text-primary">Knowledge Hub</span>
-          </Link>
-          <div
-            className="relative flex items-center gap-10 bg-white px-7 py-3 rounded-xl px-3 py-2 border border-border w-fit"
-          >
-            {/* Sliding Background */}
-            <div
-              className={`absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-all duration-300 ${activeButton ? "opacity-100" : "opacity-0"
-                }`}
-              style={{
-                willChange: "auto", // Inform the browser that opacity and transform will change
-                width: `${100 / buttonData.length}%`, // Dynamically set the width to match the button width
-                transform: `translateX(${buttonData.findIndex((button) => button.id === activeButton) * 100}%)`,
-              }}
-            ></div>
+          <div className="relative flex items-center justify-between w-full">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 font-bold text-xl bg-white rounded-xl px-3 py-2 border border-border w-fit">
+              <span className="text-primary">Knowledge Hub</span>
+            </Link>
 
-            {/* Navigation Links */}
-            {buttonData.map((button) => (
-              <button
-                key={button.id}
-                className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${activeButton === button.id ? "text-white" : "text-gray-500 hover:text-white"
+            {/* Navigation Links (Desktop) */}
+            <div className="relative hidden md:flex items-center gap-10 bg-white px-7 py-3 rounded-xl border border-border w-fit">
+              {/* Sliding Background */}
+              <div
+                className={`absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-all duration-300 ${activeButton ? "opacity-100" : "opacity-0"
                   }`}
-                onMouseEnter={() => setActiveButton(button.id)} // Set activeButton when hovering over a button
+                style={{
+                  willChange: "auto",
+                  width: `${100 / buttonData.length}%`,
+                  transform: `translateX(${buttonData.findIndex((button) => button.id === activeButton) * 100}%)`,
+                }}
+              ></div>
+
+              {/* Navigation Links */}
+              {buttonData.map((button) => (
+                <button
+                  key={button.id}
+                  className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${activeButton === button.id ? "text-white" : "text-gray-500 hover:text-white"
+                    }`}
+                  onMouseEnter={() => setActiveButton(button.id)}
+                >
+                  {button.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Sign In/Sign Up Buttons */}
+            <div className="relative hidden md:flex items-center gap-4 bg-white rounded-xl px-2 py-1 border border-border w-fit">
+              {/* Sliding Background */}
+              <div
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-transform duration-300"
+                style={{
+                  width: `${50}%`,
+                  transform: `translateX(${activeAuthButton === "signIn" ? 0 : 100}%)`,
+                }}
+              ></div>
+
+              {/* Sign In Button (Hidden on Mobile) */}
+              <Button
+                size="sm"
+                className={`relative z-10 items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signIn" ? "text-white" : "text-gray-700 hover:text-black"
+                  }`}
+                onMouseEnter={() => setActiveAuthButton("signIn")}
+                onClick={() => setShowSignIn(true)}
               >
-                {button.label}
-              </button>
-            ))}
-          </div>
-          <div className="relative flex items-center gap-4 bg-white rounded-xl px-2 py-1 border border-border w-fit">
-            {/* Sliding Background */}
-            <div
-              className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-transform duration-300"
-              style={{
-                width: `${50}%`, // Assuming two buttons, each takes 50% of the container
-                transform: `translateX(${activeAuthButton === "signIn" ? 0 : 100}%)`,
-              }}
-            ></div>
+                Sign In
+              </Button>
 
-            {/* Sign In Button */}
-            <Button
-              size="sm"
-              className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signIn" ? "text-white" : "text-gray-700 hover:text-black"
-                }`}
-              onMouseEnter={() => setActiveAuthButton("signIn")}
-              onClick={() => setShowSignIn(true)}
-            >
-              Sign In
-            </Button>
+              {/* Sign Up Button */}
+              <Button
+                size="sm"
+                className={`relative z-10  items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signUp" ? "text-white" : "text-gray-700 hover:text-black"
+                  }`}
+                onMouseEnter={() => setActiveAuthButton("signUp")}
+                onClick={() => setShowSignUp(true)}
+              >
+                Sign Up
+              </Button>
+            </div>
 
-            {/* Sign Up Button */}
-            <Button
-              size="sm"
-              className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signUp" ? "text-white" : "text-gray-700 hover:text-black"
+            {/* Hamburger Menu (Mobile) */}
+            <div className="flex md:hidden items-center">
+              <>
+                <button
+                  className="ml-4 flex items-center justify-center w-10 h-10"
+                  onClick={() => setShowMobileMenu((prev) => !prev)}
+                >
+                  <span className="sr-only">Toggle Menu</span>
+                  <svg
+                    className="w-6 h-6 text-gray-700"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
+                {showMobileMenu && (
+                  <div
+                    className="fixed inset-0 bg-black/50 z-40"
+                    onClick={() => setShowMobileMenu(false)}
+                  ></div>
+                )}
+              </>
+            </div>
+
+            {/* Mobile Menu */}
+            {showMobileMenu && (
+              <div
+                className={`absolute top-16 left-0 w-full bg-white shadow-lg rounded-lg p-4 z-[200] transition-all duration-300 ease-in-out ${
+                  showMobileMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"
                 }`}
-              onMouseEnter={() => setActiveAuthButton("signUp")}
-              onClick={() => setShowSignUp(true)}
-            >
-              Sign Up
-            </Button>
+              >
+                {/* Header with Title and Close Button */}
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-bold text-gray-700">Knowledge Hub</span>
+                  <button
+                    className="flex items-center justify-center w-8 h-8"
+                    onClick={() => setShowMobileMenu(false)}
+                  >
+                    <span className="sr-only">Close Menu</span>
+                    <svg
+                      className="w-5 h-5 text-gray-700"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Menu Content */}
+                <div className="flex flex-col gap-4 mt-4">
+                  {buttonData.map((button) => (
+                    <button
+                      key={button.id}
+                      className="text-sm font-medium text-gray-700 hover:text-black flex justify-between items-center"
+                      onClick={() => {
+                        setActiveButton(button.id);
+                        setShowMobileMenu(false);
+                      }}
+                    >
+                      {button.label}
+                      <ChevronRightIcon />
+                    </button>
+                  ))}
+                  <div className="border-t border-border grid grid-cols-2 gap-2 py-3">
+                    <Button
+                      size="sm"
+                      className="w-full bg-gray-100 text-gray-700 hover:text-black rounded-xl px-4 py-5"
+                      onClick={() => {
+                        setShowSignIn(true);
+                        setShowMobileMenu(false);
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:opacity-90 rounded-xl px-4 py-5"
+                      onClick={() => {
+                        setShowSignUp(true);
+                        setShowMobileMenu(false);
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      </header>
+      </header >
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-muted/50 to-background place-items-center">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-muted/50 to-background place-items-center overflow-hidden">
           <div className="container px-4 md:px-6 max-w-7xl">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
@@ -205,43 +308,44 @@ export default function Home() {
       </footer>
 
       {/* Sign In Modal */}
-      {showSignIn && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <Card className="p-0 max-w-sm w-full shadow-none border-none">
-            <MagicCard
-              gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
-              className="p-0"
-            >
-              <CardHeader className="border-b border-border p-4 [.border-b]:pb-4">
-                <CardTitle>Login</CardTitle>
-                <CardDescription>
-                  Enter your credentials to access your account
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-4">
-                <form>
-                  <div className="grid gap-4">
-                    <div className="grid gap-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="Enter your email" className="text-slate-400" />
+      {
+        showSignIn && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <Card className="p-0 max-w-sm w-full shadow-none border-none">
+              <MagicCard
+                gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
+                className="p-0"
+              >
+                <CardHeader className="border-b border-border p-4 [.border-b]:pb-4">
+                  <CardTitle>Login</CardTitle>
+                  <CardDescription>
+                    Enter your credentials to access your account
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <form>
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" type="email" placeholder="Enter your email" className="text-slate-400" />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="password">Password</Label>
+                        <Input id="password" type="password" placeholder="Enter your password" className="text-slate-400" />
+                      </div>
                     </div>
-                    <div className="grid gap-2">
-                      <Label htmlFor="password">Password</Label>
-                      <Input id="password" type="password" placeholder="Enter your password" className="text-slate-400" />
-                    </div>
-                  </div>
-                </form>
-              </CardContent>
-              <CardFooter className=" grid grid-cols-2 border-b border-border p-4 [.border-b]:pb-4">
-                <Button variant="outline" onClick={() => setShowSignIn(false)}>
-                  Cancel
-                </Button>
-                <Button>Sign In</Button>
-              </CardFooter>
-            </MagicCard>
-          </Card>
-        </div>
-      )
+                  </form>
+                </CardContent>
+                <CardFooter className=" grid grid-cols-2 border-b border-border p-4 [.border-b]:pb-4">
+                  <Button variant="outline" onClick={() => setShowSignIn(false)}>
+                    Cancel
+                  </Button>
+                  <Button>Sign In</Button>
+                </CardFooter>
+              </MagicCard>
+            </Card>
+          </div>
+        )
       }
 
       {/* Sign Up Modal */}
