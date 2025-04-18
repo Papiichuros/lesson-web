@@ -27,6 +27,7 @@ import Image from "next/image"
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/lib/firebase"; // Adjust the import path based on your project setup
 
 export default function Home() {
@@ -66,12 +67,14 @@ export default function Home() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("User signed in:", userCredential.user);
       setIsAuthenticated(true); // Update authentication state
+      setUser(userCredential.user); // Store user information
       setShowSignIn(false); // Close the modal
+      toast.success("Successfully signed in!"); // Show success notification
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error signing in:", error.message);
+        toast.error("Invalid email or password. Please try again."); // Show error notification
       } else {
-        console.error("Error signing in:", error);
+        toast.error("An unexpected error occurred. Please try again."); // Show generic error notification
       }
     }
   };
@@ -87,10 +90,8 @@ export default function Home() {
       toast.success("Account successfully created!"); // Show success notification
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error signing up:", error.message);
         toast.error("Error creating account. Please try again."); // Show error notification
       } else {
-        console.error("Error signing up:", error);
         toast.error("An unexpected error occurred. Please try again."); // Show generic error notification
       }
     }
@@ -104,6 +105,21 @@ export default function Home() {
       setUser(null);
     } catch (error) {
       console.error("Error logging out:", error);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      console.log("User signed in with Google:", result.user);
+      setIsAuthenticated(true);
+      setUser(result.user);
+      setShowSignIn(false);
+      toast.success("Successfully signed in with Google!");
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+      toast.error("An error occurred while signing in with Google. Please try again.");
     }
   };
 
@@ -359,78 +375,6 @@ export default function Home() {
         <ContentCategories />
         <RecentPublications />
 
-        <section className="py-16 bg-slate-50">
-          <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">Featured Content</h2>
-
-              {/* Profile Settings */}
-              {isAuthenticated ? (
-                <div className="relative">
-                  <button
-                    className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg"
-                    onClick={() => setShowProfileMenu((prev) => !prev)}
-                  >
-                    <img
-                      src="/path-to-profile-icon.png" // Replace with your profile icon path
-                      alt="Profile"
-                      className="w-6 h-6 rounded-full"
-                    />
-                    <ChevronDown size={16} />
-                  </button>
-
-                  {showProfileMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
-                      <div className="p-4 border-b">
-                        <p className="text-sm font-medium text-gray-700">Signed in as:</p>
-                        <p className="text-sm text-gray-500">{user?.email}</p>
-                      </div>
-                      <button
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={handleLogout}
-                      >
-                        Log Out
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div>
-                  <Button
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg"
-                    onClick={() => setShowSignIn(true)}
-                  >
-                    Sign In
-                  </Button>
-                  <Button
-                    className="ml-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg"
-                    onClick={() => setShowSignUp(true)}
-                  >
-                    Sign Up
-                  </Button>
-                </div>
-              )}
-            </div>
-
-            {/* Featured Content */}
-            <div className="grid gap-6">
-              {featuredContent.map((item) => (
-                <div key={item.id} className="p-4 bg-white rounded-lg shadow-md">
-                  <h3 className="text-xl font-bold">{item.title}</h3>
-                  <p className="text-slate-600">{item.description}</p>
-                  <Button
-                    className="mt-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg"
-                    onClick={() => handleReadClick(item.slug, item.type)}
-                  >
-                    {item.type === "ebook" ? <BookOpen size={16} /> : <FileText size={16} />}
-                    Read {item.type === "ebook" ? "eBook" : "Article"}
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -515,23 +459,56 @@ export default function Home() {
                     <div className="grid gap-4">
                       <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="Enter your email" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="Enter your email"
+                          className="placeholder:text-slate-400 text-black border-slate-400"
+                        />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" placeholder="Enter your password" />
+                        <Input
+                          id="password"
+                          type="password"
+                          placeholder="Enter your password"
+                          className="placeholder:text-slate-400 text-black border-slate-400"
+                        />
                       </div>
                     </div>
                     <CardFooter className="grid grid-cols-2 gap-3 p-4 border-t border-border">
                       <Button variant="outline" onClick={() => setShowSignIn(false)}>
                         Cancel
                       </Button>
-                      <Button type="submit" className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+                      <Button type="submit" className="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white">
                         Sign In
                       </Button>
                     </CardFooter>
                   </form>
+                  <div className="text-center mt-4">
+                    <p className="text-sm text-slate-600">Or</p>
+                    <Button
+                      className="mt-2 w-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:shadow-lg"
+                      onClick={handleGoogleSignIn}
+                    >
+                      Sign up with Google
+                    </Button>
+                  </div>
                 </CardContent>
+                <div className="text-center mt-4 mb-4">
+                  <p className="text-sm text-slate-600">
+                    Don't have an account?{" "}
+                    <button
+                      className="text-blue-500 hover:underline"
+                      onClick={() => {
+                        setShowSignIn(false);
+                        setShowSignUp(true);
+                      }}
+                    >
+                      Sign Up
+                    </button>
+                  </p>
+                </div>
               </MagicCard>
             </Card>
           </div>
@@ -574,10 +551,10 @@ export default function Home() {
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
-                        <Input 
-                        id="name" type="name" 
-                        placeholder="Enter your name" 
-                        className="placeholder:text-slate-400 text-black  border-slate-400" />
+                        <Input
+                          id="name" type="name"
+                          placeholder="Enter your name"
+                          className="placeholder:text-slate-400 text-black  border-slate-400" />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
@@ -585,26 +562,50 @@ export default function Home() {
                           id="password"
                           type="password"
                           placeholder="Enter your password"
-                          className="placeholder:text-slate-400 text-black  border-slate-400" />
+                          className="placeholder:text-slate-400 text-black border-slate-400"
+                        />
                       </div>
                     </div>
                     <CardFooter className=" grid grid-cols-2 gap-3 p-4 border-t border-border [.border-t]:pt-4">
-                      <Button 
-                      variant="outline" 
-                      className="bg-white hover:bg-slate-200 hover:shadow-lg" 
-                      onClick={() => setShowSignUp(false)}
+                      <Button
+                        variant="outline"
+                        className="bg-white hover:bg-slate-200 hover:shadow-lg"
+                        onClick={() => setShowSignUp(false)}
                       >
-                      Cancel
+                        Cancel
                       </Button>
-                      <Button 
-                      type="submit"
-                      className="bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:text-slate-200 hover:shadow-lg"
+                      <Button
+                        type="submit"
+                        className="bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:text-slate-200 hover:shadow-lg"
                       >
-                      Sign Up
+                        Sign Up
                       </Button>
                     </CardFooter>
                   </form>
+                  <div className="text-center mt-4">
+                    <p className="text-sm text-slate-600">Or</p>
+                    <Button
+                      className="mt-2 w-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:shadow-lg"
+                      onClick={handleGoogleSignIn}
+                    >
+                      Sign up with Google
+                    </Button>
+                  </div>
                 </CardContent>
+                <div className="text-center mt-4 mb-4">
+                  <p className="text-sm text-slate-600">
+                    Already have an account?{" "}
+                    <button
+                      className="text-blue-500 hover:underline"
+                      onClick={() => {
+                        setShowSignIn(true)
+                        setShowSignUp(false)
+                      }}
+                    >
+                      Sign In
+                    </button>
+                  </p>
+                </div>
               </MagicCard>
             </Card>
           </div>
