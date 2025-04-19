@@ -5,7 +5,7 @@ import { useTheme } from "next-themes" // Adjust the import path based on your p
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ChevronRightIcon, CheckIcon, ChevronDown, BookOpen, FileText } from "lucide-react"
+import { ChevronRightIcon, CheckIcon, ChevronDown, BookOpen, FileText, User } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import FeaturedContentSlideshow from "@/components/featured-content"
 import { ContentCategories } from "@/components/content-categories"
@@ -26,7 +26,7 @@ import {
 import Image from "next/image"
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/lib/firebase"; // Adjust the import path based on your project setup
 
@@ -80,12 +80,19 @@ export default function Home() {
   };
 
   // Sign Up Function
-  const handleSignUp = async (email: string, password: string) => {
+  const handleSignUp = async (email: string, password: string, name: string) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User signed up:", userCredential.user);
+      const user = userCredential.user;
+
+      // Update the user's profile with their name
+      await updateProfile(user, {
+        displayName: name,
+      });
+
+      console.log("User signed up:", user);
       setIsAuthenticated(true); // Update authentication state
-      setUser(userCredential.user); // Store user information
+      setUser(user); // Store user information
       setShowSignUp(false); // Close the modal
       toast.success("Account successfully created!"); // Show success notification
     } catch (error) {
@@ -103,8 +110,11 @@ export default function Home() {
       console.log("User logged out");
       setIsAuthenticated(false);
       setUser(null);
+      setActiveAuthButton("signIn"); // Reset sliding background to "Sign In"
+      toast.success("You have successfully signed out!"); // Show success notification
     } catch (error) {
       console.error("Error logging out:", error);
+      toast.error("An error occurred while signing out. Please try again."); // Show error notification
     }
   };
 
@@ -134,7 +144,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+      <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
       <header className="sticky top-0 z-10 supports-[backdrop-filter]:bg-background/60 place-items-center">
         <ScrollProgress className="top-[65px]" />
         <div className="container flex h-16 items-center justify-between py-4 max-w-7xl">
@@ -171,36 +181,36 @@ export default function Home() {
             </div>
 
             {/* Sign In/Sign Up Buttons or Profile Icon */}
-            <div className="relative hidden md:flex items-center gap-4 bg-white rounded-xl px-2 py-1 border border-border w-fit">
+            <div className="relative hidden md:flex items-center gap-5 bg-white rounded-xl px-4 py-3 border border-border w-fit">
               {/* Sliding Background */}
-              <div
-                className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-transform duration-300"
-                style={{
-                  width: `${50}%`,
-                  transform: `translateX(${activeAuthButton === "signIn" ? 0 : 100}%)`,
-                }}
-              ></div>
+              {!isAuthenticated && (
+                <div
+                  className={`absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-md transition-all duration-300 ${
+                    activeAuthButton ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{
+                    willChange: "auto",
+                    width: `${100 / 2}%`, // Divide equally between "Sign In" and "Sign Up"
+                    transform: `translateX(${activeAuthButton === "signIn" ? 0 : 100}%)`,
+                  }}
+                ></div>
+              )}
 
-              {/* Profile Settings */}
+              {/* Profile Settings or Sign In/Sign Up Buttons */}
               {isAuthenticated ? (
                 <div className="relative">
                   <button
-                    className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg"
+                    className="flex items-center justify-center text-gray-700"
                     onClick={() => setShowProfileMenu((prev) => !prev)}
                   >
-                    <img
-                      src="/path-to-profile-icon.png" // Replace with your profile icon path
-                      alt="Profile"
-                      className="w-6 h-6 rounded-full"
-                    />
-                    <ChevronDown size={16} />
+                    <User size={20} />
                   </button>
 
                   {showProfileMenu && (
                     <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
                       <div className="p-4 border-b">
                         <p className="text-sm font-medium text-gray-700">Signed in as:</p>
-                        <p className="text-sm text-gray-500">{user?.email}</p>
+                        <p className="text-sm text-gray-500">{user?.displayName || "User"}</p>
                       </div>
                       <button
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -213,25 +223,24 @@ export default function Home() {
                 </div>
               ) : (
                 <>
-                  <Button
-                    size="sm"
-                    className={`relative z-10 items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signIn" ? "text-white" : "text-gray-700 hover:text-black"
-                      }`}
+                  <button
+                    className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${
+                      activeAuthButton === "signIn" ? "text-white" : "text-gray-700 hover:text-black"
+                    }`}
                     onMouseEnter={() => setActiveAuthButton("signIn")}
                     onClick={() => setShowSignIn(true)}
                   >
                     Sign In
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    className={`relative z-10 items-center justify-center text-sm font-medium transition-colors ${activeAuthButton === "signUp" ? "text-white" : "text-gray-700 hover:text-black"
-                      }`}
+                  </button>
+                  <button
+                    className={`relative z-10 flex items-center justify-center text-sm font-medium transition-colors ${
+                      activeAuthButton === "signUp" ? "text-white" : "text-gray-700 hover:text-black"
+                    }`}
                     onMouseEnter={() => setActiveAuthButton("signUp")}
                     onClick={() => setShowSignUp(true)}
                   >
                     Sign Up
-                  </Button>
+                  </button>
                 </>
               )}
             </div>
@@ -351,7 +360,7 @@ export default function Home() {
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-blue-700 text-white group"
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 text-white group hover:shadow-lg"
                   >
                     Get Started
                     <ChevronRightIcon className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -449,11 +458,18 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="p-4">
                   <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
+                    onSubmit={async (e) => {
+                      e.preventDefault(); // Prevent default form submission
                       const email = (e.target as any).email.value;
                       const password = (e.target as any).password.value;
-                      handleSignIn(email, password);
+
+                      try {
+                        await handleSignIn(email, password); // Call the sign-in function
+                        setShowSignIn(false); // Close the modal only on success
+                      } catch (error) {
+                        console.error("Error during sign-in:", error);
+                        toast.error("Invalid email or password. Please try again."); // Show error notification
+                      }
                     }}
                   >
                     <div className="grid gap-4">
@@ -480,7 +496,10 @@ export default function Home() {
                       <Button variant="outline" onClick={() => setShowSignIn(false)}>
                         Cancel
                       </Button>
-                      <Button type="submit" className="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white">
+                      <Button
+                        type="submit"
+                        className="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white"
+                      >
                         Sign In
                       </Button>
                     </CardFooter>
@@ -532,29 +551,39 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="p-4">
                   <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
+                    onSubmit={async (e) => {
+                      e.preventDefault(); // Prevent default form submission
                       const email = (e.target as any).email.value;
                       const password = (e.target as any).password.value;
-                      handleSignUp(email, password);
+                      const name = (e.target as any).name.value;
+
+                      try {
+                        await handleSignUp(email, password, name); // Call the sign-up function
+                        setShowSignUp(false); // Close the modal only on success
+                      } catch (error) {
+                        console.error("Error during sign-up:", error);
+                        toast.error("Error creating account. Please try again."); // Show error notification
+                      }
                     }}
                   >
                     <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="name">Name</Label>
+                        <Input
+                          id="name"
+                          type="text"
+                          placeholder="Enter your name"
+                          className="placeholder:text-slate-400 text-black border-slate-400"
+                        />
+                      </div>
                       <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
                         <Input
                           id="email"
                           type="email"
                           placeholder="Enter your email"
-                          className="placeholder:text-slate-400 text-black  border-slate-400"
+                          className="placeholder:text-slate-400 text-black border-slate-400"
                         />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input
-                          id="name" type="name"
-                          placeholder="Enter your name"
-                          className="placeholder:text-slate-400 text-black  border-slate-400" />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
@@ -566,12 +595,8 @@ export default function Home() {
                         />
                       </div>
                     </div>
-                    <CardFooter className=" grid grid-cols-2 gap-3 p-4 border-t border-border [.border-t]:pt-4">
-                      <Button
-                        variant="outline"
-                        className="bg-white hover:bg-slate-200 hover:shadow-lg"
-                        onClick={() => setShowSignUp(false)}
-                      >
+                    <CardFooter className="grid grid-cols-2 gap-3 p-4 border-t border-border">
+                      <Button variant="outline" onClick={() => setShowSignUp(false)}>
                         Cancel
                       </Button>
                       <Button

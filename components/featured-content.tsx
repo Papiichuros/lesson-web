@@ -149,14 +149,14 @@ export default function FeaturedContent() {
           <h2 className="text-3xl font-bold">Featured Content</h2>
           <div className="flex items-center gap-4">
             <button
-              className="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+              className="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg"
               onClick={prevSlide}
               aria-label="Previous Slide"
             >
               <ChevronLeft size={24} />
             </button>
             <button
-              className="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+              className="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg"
               onClick={nextSlide}
               aria-label="Next Slide"
             >

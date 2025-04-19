@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CalendarDays, Clock } from "lucide-react"
+import { CalendarDays, ChevronRightIcon, Clock } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { TextAnimate } from "./magicui/text-animate"
-import { InteractiveHoverButton } from "./magicui/interactive-hover-button"
+import { PulsatingButton } from "@/components/magicui/pulsating-button";
 
 export default function RecentPublications() {
   const publications = [
@@ -80,12 +81,13 @@ export default function RecentPublications() {
                 </div>
               </CardContent>
               <CardFooter>
-                
-              <Link href={publication.href} passHref>
-                <InteractiveHoverButton>
-                  Read Article
-                </InteractiveHoverButton>
-              </Link>
+
+                <Link href={publication.href} passHref>
+                  <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white group">
+                    Read Article
+                    <ChevronRightIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Button>
+                </Link>
               </CardFooter>
             </Card>
           ))}
@@ -93,9 +95,10 @@ export default function RecentPublications() {
         <div className="flex justify-center">
           <Link
             href="/articles"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
           >
-            View All Articles
+            <PulsatingButton>
+              View All Articles
+            </PulsatingButton>
           </Link>
         </div>
       </div>

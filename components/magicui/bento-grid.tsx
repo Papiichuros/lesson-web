@@ -1,6 +1,5 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 import { ComponentPropsWithoutRef, ReactNode } from "react";
-import { InteractiveHoverButton } from "./interactive-hover-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -69,10 +68,10 @@ const BentoCard = ({
         "pointer-events-none absolute bottom-0 flex w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100",
       )}
     >
-      <Button asChild size="sm" className="pointer-events-auto bg-blue-600 hover:bg-blue-700 text-white">
+      <Button asChild size="sm" className="pointer-events-auto bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white">
         <a href={href}>
           {cta}
-          <ChevronRight className="ms-2 h-4 w-4 rtl:rotate-180" />
+          <ChevronRightIcon className="ms-2 h-4 w-4 rtl:rotate-180 transition-transform duration-300 group-hover:translate-x-1" />
         </a>
       </Button>
     </div>

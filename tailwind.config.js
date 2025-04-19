@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-const baseConfig = require("tailwindcss/defaultConfig")
-const plugin = require("tailwindcss/plugin")
+const baseConfig = require("tailwindcss/defaultConfig");
+const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   darkMode: ["class"],
@@ -65,6 +65,10 @@ module.exports = {
         mono: ["var(--font-mono)"],
       },
       keyframes: {
+        pulse: {
+          "0%, 100%": { boxShadow: "0 0 0 0 var(--pulse-color)" },
+          "50%": { boxShadow: "0 0 0 8px var(--pulse-color)" },
+        },
         "line-shadow": {
           "0%": { backgroundPosition: "0 0" },
           "100%": { backgroundPosition: "100% -100%" },
@@ -95,6 +99,7 @@ module.exports = {
         },
       },
       animation: {
+        pulse: "pulse 2s ease-out infinite",
         "line-shadow": "line-shadow 15s linear infinite",
         rainbow: "rainbow 2s infinite linear",
         "slide-in-right": "slideInRight 0.5s forwards",
@@ -106,4 +111,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
