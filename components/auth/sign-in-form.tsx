@@ -1,9 +1,7 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,6 +17,8 @@ export function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
   const { signIn, signInWithGoogle } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams() // Get query parameters
+  const redirect = searchParams.get("redirect") || "/dashboard" // Default to dashboard if no redirect is provided
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -27,7 +27,7 @@ export function SignInForm() {
 
     try {
       await signIn(email, password)
-      router.push("/dashboard")
+      router.push(redirect) // Redirect to the target page after signing in
     } catch (error: any) {
       setError(error.message || "Failed to sign in")
     } finally {
@@ -41,7 +41,7 @@ export function SignInForm() {
 
     try {
       await signInWithGoogle()
-      router.push("/dashboard")
+      router.push(redirect) // Redirect to the target page after signing in
     } catch (error: any) {
       setError(error.message || "Failed to sign in with Google")
     } finally {

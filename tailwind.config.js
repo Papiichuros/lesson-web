@@ -54,6 +54,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "color-1": "hsl(var(--color-1))",
+        "color-2": "hsl(var(--color-2))",
+        "color-3": "hsl(var(--color-3))",
+        "color-4": "hsl(var(--color-4))",
+        "color-5": "hsl(var(--color-5))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -97,16 +102,44 @@ module.exports = {
           from: { width: "0%" },
           to: { width: "100%" },
         },
+        aurora: {
+          "0%": {
+            backgroundPosition: "0% 50%",
+            transform: "rotate(-5deg) scale(0.9)",
+          },
+          "25%": {
+            backgroundPosition: "50% 100%",
+            transform: "rotate(5deg) scale(1.1)",
+          },
+          "50%": {
+            backgroundPosition: "100% 50%",
+            transform: "rotate(-3deg) scale(0.95)",
+          },
+          "75%": {
+            backgroundPosition: "50% 0%",
+            transform: "rotate(3deg) scale(1.05)",
+          },
+          "100%": {
+            backgroundPosition: "0% 50%",
+            transform: "rotate(-5deg) scale(0.9)",
+          },
+        },
+        grid: {
+          "0%": { transform: "translateY(-50%)" },
+          "100%": { transform: "translateY(0)" },
+        },
       },
       animation: {
         pulse: "pulse 2s ease-out infinite",
         "line-shadow": "line-shadow 15s linear infinite",
-        rainbow: "rainbow 2s infinite linear",
+        rainbow: "rainbow var(--speed, 2s) infinite linear",
         "slide-in-right": "slideInRight 0.5s forwards",
         "slide-out-left": "slideOutLeft 0.5s forwards",
         "slide-in-left": "slideInLeft 0.5s forwards",
         "slide-out-right": "slideOutRight 0.5s forwards",
         progress: "progress 5s linear",
+        aurora: "aurora 8s ease-in-out infinite alternate",
+        grid: "grid 15s linear infinite",
       },
     },
   },

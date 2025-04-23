@@ -1,18 +1,22 @@
-"use client";
+"use client"
 
-import { useState, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, BookOpen, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { TimerProgress } from "@/components/timer-progress";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { MagicCard } from "@/components/magicui/magic-card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { useState, useEffect } from "react"
+import { ChevronLeft, ChevronRight, BookOpen, FileText } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
+import { useTheme } from "next-themes"
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth"
+import { auth } from "@/lib/firebase"
+import AuthModal from "./auth-modal"
 
 const featuredContent = [
   {
@@ -28,217 +32,256 @@ const featuredContent = [
     id: 2,
     title: "Getting Started with React",
     slug: "getting-started-with-react",
-    type: "article",
+    type: "blog",
     coverImage: "/placeholder.svg?height=400&width=600",
     description: "Learn the basics of React and how to set up your first React application.",
     author: "Jane Smith",
   },
   {
     id: 3,
-    title: "JavaScript Mastery",
-    slug: "javascript-mastery",
+    title: "Mastering TypeScript",
+    slug: "mastering-typescript",
     type: "ebook",
     coverImage: "/placeholder.svg?height=400&width=300",
-    description: "Master JavaScript from basics to advanced concepts with practical examples.",
+    description: "Deep dive into TypeScript and learn how to write robust, type-safe code.",
     author: "John Doe",
   },
   {
     id: 4,
-    title: "CSS Grid Layout Tutorial",
-    slug: "css-grid-layout-tutorial",
-    type: "article",
+    title: "Getting Started with React",
+    slug: "getting-started-with-react",
+    type: "blog",
     coverImage: "/placeholder.svg?height=400&width=600",
-    description: "Master CSS Grid Layout with this comprehensive tutorial.",
-    author: "John Doe",
+    description: "Learn the basics of React and how to set up your first React application.",
+    author: "Jane Smith",
   },
-];
+]
 
-const SLIDE_INTERVAL = 5000;
+const SLIDE_INTERVAL = 5000
 
 export default function FeaturedContent() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isTimerRunning, setIsTimerRunning] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any>(null);
-  const [showSignIn, setShowSignIn] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
-  const router = useRouter();
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const [showSignIn, setShowSignIn] = useState(false)
+  const [showSignUp, setShowSignUp] = useState(false)
+  const { theme = "light" } = useTheme()
+  const router = useRouter()
+  // This effect handles the automatic slideshow
+  useEffect(() => {
+    // Don't start a timer if we're animating
+    if (isAnimating) return
+
+    // Set up a timer for automatic slide transition
+    const timer = setTimeout(() => {
+      // Only proceed if we're not in the middle of an animation
+      if (!isAnimating) {
+        setIsAnimating(true)
+        // Always go to the next slide in sequence
+        setActiveIndex((prevIndex) => (prevIndex + 1) % featuredContent.length)
+
+        // Clear animation flag after transition completes
+        setTimeout(() => {
+          setIsAnimating(false)
+        }, 500)
+      }
+    }, SLIDE_INTERVAL)
+
+    // Clean up the timer when component unmounts or dependencies change
+    return () => clearTimeout(timer)
+  }, [activeIndex, isAnimating])
+
+  // Function to handle manual navigation
+  const handleNavigation = (index: number) => {
+    // Don't do anything if we're already animating
+    if (isAnimating) return
+
+    setIsAnimating(true)
+    setActiveIndex(index)
+
+    // Clear animation flag after transition completes
+    setTimeout(() => {
+      setIsAnimating(false)
+    }, 500)
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsAuthenticated(!!user);
-      setUser(user || null);
-    });
-    return () => unsubscribe();
-  }, []);
+      setIsAuthenticated(!!user)
+      setUser(user || null)
+    })
+    return () => unsubscribe()
+  }, [])
 
   const handleSignIn = async (email: string, password: string) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setIsAuthenticated(true);
-      setUser(userCredential.user);
-      setShowSignIn(false);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      setIsAuthenticated(true)
+      setUser(userCredential.user)
+      setShowSignIn(false)
+      toast.success("Successfully signed in!")
     } catch (error) {
-      console.error("Error signing in:", error);
+      toast.error("Invalid email or password. Please try again.")
     }
-  };
+  }
 
-  const handleSignUp = async (email: string, password: string) => {
+  const handleSignUp = async (email: string, password: string, name?: string) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setIsAuthenticated(true);
-      setUser(userCredential.user);
-      setShowSignUp(false);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      setIsAuthenticated(true)
+      setUser({ ...userCredential.user, displayName: name })
+      setShowSignUp(false)
+      toast.success("Account successfully created!")
     } catch (error) {
-      console.error("Error signing up:", error);
+      toast.error("Error creating account. Please try again.")
     }
-  };
+  }
 
-  const handleLogout = async () => {
+  const handleGoogleSignIn = async () => {
     try {
-      await signOut(auth);
-      setIsAuthenticated(false);
-      setUser(null);
+      const provider = new GoogleAuthProvider()
+      const result = await signInWithPopup(auth, provider)
+      setIsAuthenticated(true)
+      setUser(result.user)
+      setShowSignIn(false)
+      toast.success("Successfully signed in with Google!")
     } catch (error) {
-      console.error("Error logging out:", error);
+      toast.error("An error occurred while signing in with Google. Please try again.")
     }
-  };
+  }
 
   const handleReadClick = (slug: string, type: string) => {
     if (!isAuthenticated) {
-      setShowSignIn(true);
+      setShowSignIn(true)
     } else {
-      router.push(type === "ebook" ? `/ebooks/${slug}` : `/articles/${slug}`);
+      router.push(type === "ebook" ? `/ebooks/${slug}` : `/blogs/${slug}`)
     }
-  };
+  }
 
-  const nextSlide = useCallback(() => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setActiveIndex((prev) => (prev === featuredContent.length - 1 ? 0 : prev + 1));
-    setTimeout(() => setIsAnimating(false), 500);
-  }, [isAnimating]);
+  // Calculate progress for the timer
+  const [progress, setProgress] = useState(0)
 
-  const prevSlide = useCallback(() => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setActiveIndex((prev) => (prev === 0 ? featuredContent.length - 1 : prev - 1));
-    setTimeout(() => setIsAnimating(false), 500);
-  }, [isAnimating]);
+  // Update progress every 50ms
+  useEffect(() => {
+    // Don't update progress if we're animating
+    if (isAnimating) return
 
-  const goToSlide = useCallback(
-    (index: number) => {
-      if (isAnimating || index === activeIndex) return;
-      setIsAnimating(true);
-      setActiveIndex(index);
-      setTimeout(() => setIsAnimating(false), 500);
-    },
-    [isAnimating, activeIndex]
-  );
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        // Reset to 0 when we reach 100
+        if (prev >= 100) {
+          return 0
+        }
+        // Otherwise increment by a small amount
+        return prev + (50 / SLIDE_INTERVAL) * 100
+      })
+    }, 50)
 
-  const extractSize = (url: string, key: "width" | "height", fallback: number): number => {
-    const match = url.match(new RegExp(`${key}=([0-9]+)`));
-    return match ? parseInt(match[1], 10) : fallback;
-  };
+    return () => clearInterval(interval)
+  }, [isAnimating])
+
+  // Reset progress when activeIndex changes
+  useEffect(() => {
+    setProgress(0)
+  }, [activeIndex])
 
   return (
-    <section className="py-16 bg-slate-50">
+    <section className="py-16">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">Featured Content</h2>
-          <div className="flex items-center gap-4">
+          {/* Next and Previous Buttons */}
+          <div className="absolute right-20 flex space-x-2 z-20">
             <button
-              className="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg"
-              onClick={prevSlide}
-              aria-label="Previous Slide"
+              className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full shadow-md hover:opacity-90"
+              onClick={() => {
+                const prevIndex = (activeIndex - 1 + featuredContent.length) % featuredContent.length
+                handleNavigation(prevIndex)
+              }}
+              aria-label="Previous slide"
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={20} />
             </button>
             <button
-              className="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg"
-              onClick={nextSlide}
-              aria-label="Next Slide"
+              className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full shadow-md hover:opacity-90"
+              onClick={() => {
+                const nextIndex = (activeIndex + 1) % featuredContent.length
+                handleNavigation(nextIndex)
+              }}
+              aria-label="Next slide"
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
 
-        <div
-          className="relative overflow-hidden rounded-xl bg-white shadow-lg"
-          style={{ minHeight: "500px" }}
-        >
-          <TimerProgress
-            thickness={3}
-            position="bottom"
-            duration={SLIDE_INTERVAL}
-            isRunning={isTimerRunning && !isAnimating}
-            onComplete={nextSlide}
-          />
-
+        <div className="relative overflow-hidden rounded-xl bg-white shadow-lg" style={{ minHeight: "500px" }}>
+          {/* Custom Progress Bar */}
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200 z-20">
+            <div
+              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-50 ease-linear"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          {/* Slides */}
           {featuredContent.map((item, index) => (
             <div
               key={item.id}
               className={cn(
-                "absolute inset-0 w-full transition-all duration-500 ease-in-out",
+                "absolute inset-0 w-full transition-transform duration-500 ease-in-out",
                 index === activeIndex
-                  ? "opacity-100 translate-x-0 z-10"
+                  ? "translate-x-0 z-10" // Active slide
                   : index < activeIndex
-                  ? "opacity-0 -translate-x-full z-0"
-                  : "opacity-0 translate-x-full z-0"
+                    ? "-translate-x-full z-0" // Previous slide
+                    : "translate-x-full z-0", // Next slide
               )}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+                {/* Content Section */}
                 <div className="p-8 md:p-12 flex flex-col justify-center">
-                  <div className="mb-4">
-                    <span
-                      className={`inline-block text-sm px-3 py-1 rounded-full ${
-                        item.type === "ebook" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
-                      }`}
-                    >
-                      {item.type === "ebook" ? "eBook" : "Article"}
-                    </span>
-                  </div>
                   <h3 className="text-2xl md:text-3xl font-bold mb-4">{item.title}</h3>
-                  <p className="text-sm text-slate-600 mb-2">By {item.author}</p>
                   <p className="text-slate-700 mb-6">{item.description}</p>
                   <Button
-                    className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white"
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full px-4 py-2 shadow-md hover:opacity-90"
                     onClick={() => handleReadClick(item.slug, item.type)}
                   >
                     {item.type === "ebook" ? <BookOpen size={16} /> : <FileText size={16} />}
-                    Read {item.type === "ebook" ? "eBook" : "Article"}
+                    Read {item.type === "ebook" ? "eBook" : "Blog"}
                   </Button>
                 </div>
-                <div className="hidden md:flex items-center justify-center bg-slate-100 p-8">
+
+                {/* Image Section */}
+                <div className="relative">
                   <Image
-                    src={item.coverImage || "/assets/study.png"}
-                    width={extractSize(item.coverImage, "width", 300)}
-                    height={extractSize(item.coverImage, "height", 400)}
+                    src={item.coverImage || "/placeholder.svg"}
                     alt={item.title}
-                    className="max-h-80 object-contain rounded-md shadow-md"
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-r-xl"
                   />
                 </div>
               </div>
             </div>
           ))}
         </div>
-
-        <div className="flex justify-center mt-6 gap-2">
-          {featuredContent.map((item, index) => (
-            <button
-              key={item.id}
-              onClick={() => goToSlide(index)}
-              className={cn(
-                "w-2.5 h-2.5 rounded-full transition-all",
-                index === activeIndex ? "bg-blue-600 w-8" : "bg-blue-300"
-              )}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+        <AuthModal
+          type="signIn"
+          isVisible={showSignIn}
+          onClose={() => setShowSignIn(false)}
+          onGoogleSignIn={handleGoogleSignIn}
+          onSubmit={handleSignIn}
+          theme={theme}
+        />
+        <AuthModal
+          type="signUp"
+          isVisible={showSignUp}
+          onClose={() => setShowSignUp(false)}
+          onGoogleSignIn={handleGoogleSignIn}
+          onSubmit={handleSignUp}
+          theme={theme}
+        />
       </div>
     </section>
-  );
+  )
 }

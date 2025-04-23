@@ -79,7 +79,7 @@ export default function CoursesPage() {
             <Link href="/ebooks" className="text-sm font-medium hover:text-primary">
               eBooks
             </Link>
-            <Link href="/blog" className="text-sm font-medium hover:text-primary">
+            <Link href="/blogs" className="text-sm font-medium hover:text-primary">
               Blog
             </Link>
             <Link href="/about" className="text-sm font-medium hover:text-primary">
