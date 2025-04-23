@@ -4,10 +4,10 @@ import { useParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { ScrollProgress } from "@/components/magicui/scroll-progress";
-import { User } from "lucide-react"
+import { User } from "lucide-react";
 import Link from "next/link";
-import { onAuthStateChanged } from "firebase/auth"; // Import from Firebase
-import { auth } from "@/lib/firebase"; // Adjust the import path based on your project setup
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 // Mock data for blogs
 const blogs = [
@@ -86,10 +86,14 @@ export default function BlogPage() {
     }
   }, [params]);
 
-  const handleLogout = () => {
-    console.log("User logged out");
-    setUser(null); // Clear user data
-    router.push("/"); // Redirect to the home page
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Sign out the user globally
+      setUser(null); // Clear the user state
+      router.push("/"); // Redirect to the homepage
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   // Handle not found case
