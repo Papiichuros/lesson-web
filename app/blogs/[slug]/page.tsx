@@ -4,10 +4,7 @@ import { useParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { ScrollProgress } from "@/components/magicui/scroll-progress";
-import { User } from "lucide-react";
 import Link from "next/link";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
 
 // Mock data for blogs
 const blogs = [
@@ -56,45 +53,18 @@ export default function BlogPage() {
     content: string;
   } | null>(null);
   const [notFound404, setNotFound404] = useState(false);
-  const [user, setUser] = useState<{ photoURL?: string; displayName?: string } | null>(null);
-
-  useEffect(() => {
-    // Listen for authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser({
-          photoURL: currentUser.photoURL || "/default-avatar.png",
-          displayName: currentUser.displayName || "User",
-        });
-      } else {
-        setUser(null); // User is signed out
-      }
-    });
-
-    return () => unsubscribe(); // Cleanup the listener on unmount
-  }, []);
 
   useEffect(() => {
     // Find the blog based on the slug from params
     const slug = params.slug;
-    const foundblog = blogs.find((blog) => blog.slug === slug);
+    const foundBlog = blogs.find((blog) => blog.slug === slug);
 
-    if (foundblog) {
-      setBlog(foundblog);
+    if (foundBlog) {
+      setBlog(foundBlog);
     } else {
       setNotFound404(true);
     }
   }, [params]);
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth); // Sign out the user globally
-      setUser(null); // Clear the user state
-      router.push("/"); // Redirect to the homepage
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
 
   // Handle not found case
   if (notFound404) {
@@ -137,35 +107,16 @@ export default function BlogPage() {
               <Link
                 key={button.id}
                 href={button.href}
-                className={`relative text-sm font-medium transition-transform duration-300 ${pathname.includes(button.href)
-                  ? "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 scale-110"
-                  : "text-gray-500 hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:scale-110"
-                  }`}
+                className={`relative text-sm font-medium transition-transform duration-300 ${
+                  pathname.includes(button.href)
+                    ? "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 scale-110"
+                    : "text-gray-500 hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:scale-110"
+                }`}
               >
                 {button.label}
               </Link>
             ))}
           </nav>
-
-          {/* User Profile */}
-          <div className="relative group">
-            <button className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-              <User className="w-6 h-6 text-gray-700" />
-            </button>
-
-            {/* Profile Dropdown */}
-            <div className="absolute right-0 w-48 bg-white shadow-lg rounded-lg p-4 z-50 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-in-out transform translate-y-2 pointer-events-none group-hover:pointer-events-auto">
-              <p className="text-sm font-medium text-gray-700 mb-2">
-                {user?.displayName || "User"}
-              </p>
-              <button
-                className="block w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
-          </div>
         </div>
       </header>
 

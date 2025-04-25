@@ -1,47 +1,15 @@
 "use client";
 
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
-import { BookType, Newspaper, BookImage, StickyNote } from "lucide-react"
-import AuthModal from "@/components/auth-modal";
-import {
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth"
-import { auth } from "@/lib/firebase" // Adjust the import path based on your project setup
-import { useRouter, usePathname } from "next/navigation"
-import { useState, useEffect, useRef } from "react"
-import { useTheme } from "next-themes"
+import { BookType, Newspaper, BookImage, StickyNote } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { toast, ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
 
 export function ContentCategories() {
-  const [showSignIn, setShowSignIn] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
-  const { theme = "light" } = useTheme();
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
-  const [user, setUser] = useState<any>(null); // Store user profile information
   const router = useRouter();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true) // User is signed in
-        setUser(user) // Store user information
-      } else {
-        setIsAuthenticated(false) // User is signed out
-        setUser(null) // Clear user information
-      }
-    });
-
-    return () => unsubscribe(); // Cleanup subscription on unmount
-  }, []);
   // Define buttonData with appropriate structure
   const buttonData = [
     { id: 1, href: "/ebooks", label: "E-Books" },
@@ -54,96 +22,12 @@ export function ContentCategories() {
   const [activeButton, setActiveButton] = useState<number | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true) // User is signed in
-        setUser(user) // Store user information
-      } else {
-        setIsAuthenticated(false) // User is signed out
-        setUser(null) // Clear user information
-      }
-    })
-    return () => unsubscribe() // Cleanup subscription on unmount
-  }, [])
-
-  useEffect(() => {
     // Set the active button based on the current route
-    const matchedButton = buttonData.find((button) => pathname.includes(button.href))
+    const matchedButton = buttonData.find((button) => pathname.includes(button.href));
     if (matchedButton) {
-      setActiveButton(matchedButton.id)
+      setActiveButton(matchedButton.id);
     }
-  }, [pathname]) // Use the pathname variable here
-
-  // Sign In Function
-  const handleSignIn = async (email: string, password: string) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      console.log("User signed in:", userCredential.user)
-      setIsAuthenticated(true) // Update authentication state
-      setUser(userCredential.user) // Store user information
-      setShowSignIn(false) // Close the modal
-      toast.success("Successfully signed in!") // Show success notification
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error("Invalid email or password. Please try again.") // Show error notification
-      } else {
-        toast.error("An unexpected error occurred. Please try again.") // Show generic error notification
-      }
-    }
-  }
-
-  // Sign Up Function
-  const handleSignUp = async (email: string, password: string, name?: string) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      const user = userCredential.user
-
-      // Update the user's profile with their name
-      await updateProfile(user, {
-        displayName: name,
-      })
-
-      console.log("User signed up:", user)
-      setIsAuthenticated(true) // Update authentication state
-      setUser(user) // Store user information
-      setShowSignUp(false) // Close the modal
-      toast.success("Account successfully created!") // Show success notification
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error("Error creating account. Please try again.") // Show error notification
-      } else {
-        toast.error("An unexpected error occurred. Please try again.") // Show generic error notification
-      }
-    }
-  }
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth)
-      console.log("User logged out")
-      setIsAuthenticated(false)
-      setUser(null)
-      toast.success("You have successfully signed out!") // Show success notification
-    } catch (error) {
-      console.error("Error logging out:", error)
-      toast.error("An error occurred while signing out. Please try again.") // Show error notification
-    }
-  }
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const provider = new GoogleAuthProvider()
-      const result = await signInWithPopup(auth, provider)
-      console.log("User signed in with Google:", result.user)
-      setIsAuthenticated(true)
-      setUser(result.user)
-      setShowSignIn(false)
-      toast.success("Successfully signed in with Google!")
-    } catch (error) {
-      console.error("Error signing in with Google:", error)
-      toast.error("An error occurred while signing in with Google. Please try again.")
-    }
-  }
+  }, [pathname]);
 
   const features = [
     {
@@ -152,13 +36,7 @@ export function ContentCategories() {
       description: "Discover a wide range of e-books to enhance your knowledge and skills.",
       href: "/ebooks",
       cta: "Learn more",
-      onClick: () => {
-        if (!isAuthenticated) {
-          setShowSignIn(true); // Trigger Sign In modal only if not authenticated
-          return; // Stop further execution
-        }
-        router.push("/ebooks"); // Navigate directly if authenticated
-      },
+      onClick: () => router.push("/ebooks"),
       background: (
         <Image
           src="/assets/study.png"
@@ -176,13 +54,7 @@ export function ContentCategories() {
       description: "Discover a wide range of articles to enhance your knowledge and skills.",
       href: "/articles",
       cta: "Learn more",
-      onClick: () => {
-        if (!isAuthenticated) {
-          setShowSignIn(true); // Trigger Sign In modal only if not authenticated
-          return; // Stop further execution
-        }
-        router.push("/articles"); // Navigate directly if authenticated
-      },
+      onClick: () => router.push("/articles"),
       background: (
         <Image
           src="/assets/study.png"
@@ -200,13 +72,7 @@ export function ContentCategories() {
       description: "Discover a wide range of magazines to enhance your knowledge and skills.",
       href: "/magazines",
       cta: "Learn more",
-      onClick: () => {
-        if (!isAuthenticated) {
-          setShowSignIn(true); // Trigger Sign In modal only if not authenticated
-          return; // Stop further execution
-        }
-        router.push("/magazines"); // Navigate directly if authenticated
-      },
+      onClick: () => router.push("/magazines"),
       background: (
         <Image
           src="/assets/study.png"
@@ -224,13 +90,7 @@ export function ContentCategories() {
       description: "Discover a wide range of blogs to enhance your knowledge and skills.",
       href: "/blogs",
       cta: "Learn more",
-      onClick: () => {
-        if (!isAuthenticated) {
-          setShowSignIn(true); // Trigger Sign In modal only if not authenticated
-          return; // Stop further execution
-        }
-        router.push("/blogs"); // Navigate directly if authenticated
-      },
+      onClick: () => router.push("/blogs"),
       background: (
         <Image
           src="/assets/study.png"
@@ -269,22 +129,6 @@ export function ContentCategories() {
           </BentoCard>
         ))}
       </BentoGrid>
-      <AuthModal
-        type="signIn"
-        isVisible={showSignIn}
-        onClose={() => setShowSignIn(false)}
-        onGoogleSignIn={handleGoogleSignIn}
-        onSubmit={handleSignIn}
-        theme={theme}
-      />
-      <AuthModal
-        type="signUp"
-        isVisible={showSignUp}
-        onClose={() => setShowSignUp(false)}
-        onGoogleSignIn={handleGoogleSignIn}
-        onSubmit={handleSignUp}
-        theme={theme}
-      />
     </section>
   );
 }

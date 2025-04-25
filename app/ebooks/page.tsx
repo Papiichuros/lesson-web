@@ -5,13 +5,8 @@ import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { BookOpen, ChevronLeft, Star, User } from "lucide-react"
-import { toast, ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { BookOpen, Star } from "lucide-react"
 import Image from "next/image"
-import { onAuthStateChanged, signOut } from "firebase/auth"
-import { auth } from "@/lib/firebase"
 import { AuroraText } from "@/components/magicui/aurora-text"
 import { RetroGrid } from "@/components/magicui/retro-grid"
 
@@ -19,8 +14,6 @@ export default function EbooksPage() {
   const pathname = usePathname()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [activeButton, setActiveButton] = useState("")
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState<any>(null)
   const router = useRouter()
 
   const buttonData = [
@@ -37,20 +30,6 @@ export default function EbooksPage() {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true)
-        setUser(user)
-      } else {
-        // Redirect to home if not authenticated
-        router.push("/")
-      }
-    })
-
-    return () => unsubscribe()
-  }, [router])
-
-  useEffect(() => {
     // Set the active button based on the current route
     const matchedButton = buttonData.find((button) => pathname.includes(button.href))
     if (matchedButton) {
@@ -58,57 +37,26 @@ export default function EbooksPage() {
     }
   }, [pathname])
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth)
-      toast.success("You have successfully signed out!")
-      router.push("/")
-    } catch (error) {
-      console.error("Error logging out:", error)
-      toast.error("An error occurred while signing out. Please try again.")
-    }
-  }
-
   const ebooks = [
     {
-      title: "Web Development Fundamentals",
-      description: "A comprehensive guide to web development, covering HTML, CSS, and JavaScript basics.",
-      pages: "320",
+      title: "The Lottery",
+      description: "The Lottery is a short story by Shirley Jackson, first published in 1948. It explores themes of tradition, conformity, and the dark side of human nature.",
+      pages: "14",
       rating: "4.8",
       reviews: "156",
-      href: "/ebooks/web-development-fundamentals",
-    },
-    {
-      title: "JavaScript Mastery",
-      description: "Master JavaScript with this comprehensive guide to modern JavaScript programming.",
-      pages: "450",
-      rating: "4.9",
-      reviews: "203",
-      category: "Programming",
-      href: "/ebooks/javascript-mastery",
-    },
-    {
-      title: "React for Beginners",
-      description: "Learn the basics of React, a popular JavaScript library for building user interfaces.",
-      pages: "280",
-      rating: "4.7",
-      reviews: "124",
-      category: "Design",
-      href: "/ebooks/react-for-beginners",
+      href: "/ebooks/the-lottery",
+      coverImage: "/images/pic1.png?height=200&width=400",
     },
   ]
 
   return (
     <div className="flex min-h-screen flex-col">
-      <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
       <header className="sticky top-0 z-50 w-full py-4 bg-white shadow-sm ">
         <div className="container mx-auto px-5 max-w-7xl flex items-center justify-between">
-          {/* Logo and Back Button */}
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-xl font-bold text-gray-800">
-              Knowledge Hub
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link href="/" className="text-xl font-bold text-gray-800">
+            Knowledge Hub
+          </Link>
 
           {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 bg-white -ml-28 px-6 py-3 rounded-full border border-gray-200 shadow-sm">
@@ -125,27 +73,6 @@ export default function EbooksPage() {
               </button>
             ))}
           </nav>
-
-          {/* User Profile */}
-          <div className="hidden md:flex items-center">
-            <div className="relative group">
-              {/* Profile Icon */}
-              <button className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                <User className="w-6 h-6 text-gray-700" />
-              </button>
-
-              {/* Profile Dropdown */}
-              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-4 z-50 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-in-out transform translate-y-2">
-                <p className="text-sm font-medium text-gray-700 mb-2">{user?.displayName || "User"}</p>
-                <button
-                  className="block w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -177,20 +104,6 @@ export default function EbooksPage() {
                 {button.label}
               </button>
             ))}
-            <div className="mt-4 border-t border-gray-200 pt-4">
-              <div className="flex items-center px-4 py-2">
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">
-                  <User className="w-4 h-4 text-gray-700" />
-                </div>
-                <span className="text-sm font-medium text-gray-700">{user?.displayName || "User"}</span>
-              </div>
-              <button
-                className="block w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
           </div>
         )}
       </header>
@@ -206,7 +119,7 @@ export default function EbooksPage() {
                   Discover comprehensive guides and references to help you master new skills at your own pace.
                 </p>
               </div>
-              <RetroGrid/>
+              <RetroGrid />
             </div>
           </div>
         </section>
@@ -218,13 +131,12 @@ export default function EbooksPage() {
                 <Card key={ebook.title} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
                   <div className="relative">
                     <Image
-                      src="/placeholder.svg?height=200&width=400"
+                      src="/images/pic1.png"
                       alt={ebook.title}
                       width={400}
-                      height={200}
-                      className="aspect-video w-full object-cover"
+                      height={400}
+                      className=" w-full object-cover"
                     />
-                    <Badge className="absolute right-2 top-2">{ebook.category}</Badge>
                   </div>
                   <CardHeader className="flex-1">
                     <CardTitle>{ebook.title}</CardTitle>
