@@ -38,58 +38,11 @@ export default function BlogsPage() {
 
   const blogs = [
     {
-      title: "Getting Started with React",
-      description: "Learn the basics of React and how to set up your first React application.",
+      title: "Collaborative Learning",
+      description: "Tackle social media regulation through argumentative writing.",
       author: "Jane Smith",
       publishedDate: "April 5, 2024",
-      category: "Frontend",
-      href: "/blogs/getting-started-with-react",
-      image: "/images/react.jpg",
-    },
-    {
-      title: "CSS Grid Layout Tutorial",
-      description: "Master CSS Grid Layout with this comprehensive tutorial.",
-      author: "John Doe",
-      publishedDate: "March 22, 2024",
-      category: "CSS",
-      href: "/blogs/css-grid-layout-tutorial",
-      image: "/images/css-grid.jpg",
-    },
-    {
-      title: "Introduction to TypeScript",
-      description: "Discover the benefits of TypeScript and how to use it in your projects.",
-      author: "Sarah Johnson",
-      publishedDate: "March 15, 2024",
-      category: "TypeScript",
-      href: "/blogs/introduction-to-typescript",
-      image: "/images/typescript.jpg",
-    },
-    {
-      title: "Building RESTful APIs with Node.js",
-      description: "Learn how to create robust RESTful APIs using Node.js and Express.",
-      author: "Michael Chen",
-      publishedDate: "March 10, 2024",
-      category: "Backend",
-      href: "/blogs/building-restful-apis-with-nodejs",
-      image: "/images/nodejs.jpg",
-    },
-    {
-      title: "Responsive Web Design Best Practices",
-      description: "Implement responsive design techniques for modern web applications.",
-      author: "Lisa Rodriguez",
-      publishedDate: "March 5, 2024",
-      category: "Design",
-      href: "/blogs/responsive-web-design-best-practices",
-      image: "/images/responsive-design.jpg",
-    },
-    {
-      title: "JavaScript Promises and Async/Await",
-      description: "Master asynchronous programming in JavaScript with Promises and async/await.",
-      author: "David Wilson",
-      publishedDate: "February 28, 2024",
-      category: "JavaScript",
-      href: "/blogs/javascript-promises-and-async-await",
-      image: "/images/javascript.avif",
+      href: "/blogs/collaborative-learning",
     },
   ];
 
@@ -107,11 +60,10 @@ export default function BlogsPage() {
             {buttonData.map((button) => (
               <button
                 key={button.id}
-                className={`relative text-sm font-medium transition-transform duration-300 ${
-                  activeButton === button.id
+                className={`relative text-sm font-medium transition-transform duration-300 ${activeButton === button.id
                     ? "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 scale-110"
                     : "text-gray-500 hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:scale-110"
-                }`}
+                  }`}
                 onClick={() => handleNavigation(button.id, button.href)}
               >
                 {button.label}
@@ -173,23 +125,13 @@ export default function BlogsPage() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {blogs.map((blog) => (
                 <Card key={blog.title} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
-                  <div className="relative">
-                    <Image
-                      src={blog.image}
-                      alt={blog.title}
-                      width={400}
-                      height={200}
-                      className="aspect-video w-full object-cover"
-                    />
-                    <Badge className="absolute right-2 top-2">{blog.category}</Badge>
-                  </div>
                   <CardHeader className="flex-1">
                     <CardTitle>{blog.title}</CardTitle>
                     <CardDescription>{blog.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground">
-                      By {blog.author} • {blog.publishedDate}
+                      {blog.publishedDate}
                     </p>
                   </CardContent>
                   <CardFooter>

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,13 +14,11 @@ export default function RecentPublications() {
 
   const publications = [
     {
-      title: "Introduction to React Hooks",
-      description: "Learn how to use React's built-in hooks to manage state and side effects in your applications.",
-      date: "April 2, 2025",
-      readTime: "10 min read",
-      category: "Programming",
-      type: "Article",
-      href: "/articles/introduction-to-react-hooks",
+      title: "Collaborative Learning",
+      description: "Tackle social media regulation through argumentative writing.",
+      date: "April 26, 2025",
+      type: "Blog",
+      href: "/blogs/collaborative-learning",
     },
   ];
 
@@ -43,7 +42,6 @@ export default function RecentPublications() {
             <Card key={publication.title} className="flex flex-col overflow-hidden transition-all hover:shadow-md">
               <CardHeader className="flex-1">
                 <div className="flex items-center justify-between">
-                  <Badge variant="outline">{publication.category}</Badge>
                   <Badge variant="secondary">{publication.type}</Badge>
                 </div>
                 <CardTitle className="mt-2">{publication.title}</CardTitle>
@@ -54,10 +52,6 @@ export default function RecentPublications() {
                   <div className="flex items-center gap-1">
                     <CalendarDays className="h-4 w-4" />
                     <span>{publication.date}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{publication.readTime}</span>
                   </div>
                 </div>
               </CardContent>

@@ -9,32 +9,12 @@ import Link from "next/link";
 // Mock data for blogs
 const blogs = [
   {
-    id: "getting-started-with-react",
-    title: "Getting Started with React",
-    slug: "getting-started-with-react",
-    coverImage: "/placeholder.svg?height=400&width=600",
+    id: "collaborative-learning",
+    title: "Collaborative Learning: Tackling Social Media Regulation Through Argumentative Writing",
+    slug: "collaborative-learning",
     description: "Learn the basics of React and how to set up your first React application.",
-    author: "Jane Smith",
-    publishedDate: "April 5, 2024",
-    content: `
-      <h1>Getting Started with React</h1>
-      <p class="text-gray-600 mb-6">Published on April 5, 2024 by Jane Smith</p>
-      <p>React is a JavaScript library for building user interfaces...</p>
-    `,
-  },
-  {
-    id: "css-grid-layout-tutorial",
-    title: "CSS Grid Layout Tutorial",
-    slug: "css-grid-layout-tutorial",
-    coverImage: "/assets/study.png?height=400&width=600",
-    description: "Master CSS Grid Layout with this comprehensive tutorial.",
-    author: "John Doe",
-    publishedDate: "March 22, 2024",
-    content: `
-      <h1>CSS Grid Layout Tutorial</h1>
-      <p class="text-gray-600 mb-6">Published on March 22, 2024 by John Doe</p>
-      <p>CSS Grid Layout is a two-dimensional layout system designed for the web...</p>
-    `,
+    publishedDate: "April 26, 2025",
+    iframeUrl: "https://new.express.adobe.com/webpage/c3M8A2dgkxfqG", // Add iframe URL here
   },
 ];
 
@@ -46,11 +26,10 @@ export default function BlogPage() {
     id: string;
     title: string;
     slug: string;
-    coverImage: string;
     description: string;
-    author: string;
     publishedDate: string;
-    content: string;
+    content?: string;
+    iframeUrl?: string;
   } | null>(null);
   const [notFound404, setNotFound404] = useState(false);
 
@@ -142,27 +121,28 @@ export default function BlogPage() {
             <header className="mb-6">
               <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
               <div className="text-sm text-gray-600">
-                <span>By {blog.author}</span> • <span>{blog.publishedDate}</span>
+                <span>{blog.publishedDate}</span>
               </div>
             </header>
 
             {/* Divider */}
             <hr className="my-6 border-gray-300" />
 
-            {/* Cover Image */}
-            <div className="mb-6">
-              <img
-                src={blog.coverImage}
-                alt={blog.title}
-                className="w-full h-auto rounded-lg object-cover"
+            {/* Render iframe if iframeUrl exists */}
+            {blog.iframeUrl ? (
+              <iframe
+                src={blog.iframeUrl}
+                title={blog.title}
+                className="w-full border rounded-lg custom-iframe-scrollbar"
+                style={{ height: "100vh", overflow: "auto" }} // Allow scrolling inside the iframe
+                frameBorder="0"
+              ></iframe>
+            ) : (
+              <div
+                className="prose prose-slate max-w-none"
+                dangerouslySetInnerHTML={{ __html: blog.content || "" }}
               />
-            </div>
-
-            {/* Blog Content */}
-            <div
-              className="prose prose-slate max-w-none"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
-            />
+            )}
           </article>
 
           {/* Vertical Divider */}
@@ -192,6 +172,27 @@ export default function BlogPage() {
           </aside>
         </div>
       </div>
+      <style jsx global>{`
+        /* Custom scrollbar for the iframe */
+        .custom-iframe-scrollbar::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+
+        .custom-iframe-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+
+        .custom-iframe-scrollbar::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #4a90e2, #9013fe);
+          border-radius: 10px;
+        }
+
+        .custom-iframe-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to bottom, #3a78c2, #7a0edc);
+        }
+      `}</style>
     </div>
   );
 }

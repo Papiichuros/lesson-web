@@ -33,7 +33,7 @@ export function ContentCategories() {
     {
       Icon: BookType,
       name: "E-Books",
-      description: "Discover a wide range of e-books to enhance your knowledge and skills.",
+      description: "Access a curated collection of e-books to expand your knowledge and skills across various topics.",
       href: "/ebooks",
       cta: "Learn more",
       onClick: () => router.push("/ebooks"),
@@ -51,7 +51,7 @@ export function ContentCategories() {
     {
       Icon: Newspaper,
       name: "Articles",
-      description: "Discover a wide range of articles to enhance your knowledge and skills.",
+      description: "Stay informed with insightful articles covering a wide range of subjects and trends.",
       href: "/articles",
       cta: "Learn more",
       onClick: () => router.push("/articles"),
@@ -69,7 +69,7 @@ export function ContentCategories() {
     {
       Icon: BookImage,
       name: "Magazines",
-      description: "Discover a wide range of magazines to enhance your knowledge and skills.",
+      description: "Dive into engaging magazines that bring you the latest updates and in-depth stories.",
       href: "/magazines",
       cta: "Learn more",
       onClick: () => router.push("/magazines"),
@@ -87,7 +87,7 @@ export function ContentCategories() {
     {
       Icon: StickyNote,
       name: "Blogs",
-      description: "Discover a wide range of blogs to enhance your knowledge and skills.",
+      description: "Explore thought-provoking blogs written to inspire and educate on various topics.",
       href: "/blogs",
       cta: "Learn more",
       onClick: () => router.push("/blogs"),
