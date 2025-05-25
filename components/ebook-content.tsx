@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { AuroraText } from "./magicui/aurora-text"
 
 interface Chapter {
   id: string

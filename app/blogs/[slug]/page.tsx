@@ -10,9 +10,11 @@ import Link from "next/link";
 const blogs = [
   {
     id: "collaborative-learning",
-    title: "Collaborative Learning: Tackling Social Media Regulation Through Argumentative Writing",
+    title:
+      "Collaborative Learning: Tackling Social Media Regulation Through Argumentative Writing",
     slug: "collaborative-learning",
-    description: "Learn the basics of React and how to set up your first React application.",
+    description:
+      "Learn the basics of React and how to set up your first React application.",
     publishedDate: "April 26, 2025",
     iframeUrl: "https://new.express.adobe.com/webpage/c3M8A2dgkxfqG", // Add iframe URL here
   },
@@ -50,8 +52,12 @@ export default function BlogPage() {
     return (
       <div className="container mx-auto py-8 px-4 text-center">
         <h1 className="text-3xl font-bold mb-4">Blog Not Found</h1>
-        <p className="text-gray-600">The blog you're looking for doesn't exist.</p>
-        <RainbowButton onClick={() => router.push("/blogs")}>Back to Blogs</RainbowButton>
+        <p className="text-gray-600">
+          The blog you&apos;re looking for doesn&apos;t exist.
+        </p>
+        <RainbowButton onClick={() => router.push("/blogs")}>
+          Back to Blogs
+        </RainbowButton>
       </div>
     );
   }
@@ -100,7 +106,10 @@ export default function BlogPage() {
       </header>
 
       {/* Back to Blogs Button */}
-      <RainbowButton className="mt-4 ml-14" onClick={() => router.push("/blogs")}>
+      <RainbowButton
+        className="mt-4 ml-14"
+        onClick={() => router.push("/blogs")}
+      >
         Back to Blogs
       </RainbowButton>
 
@@ -110,8 +119,7 @@ export default function BlogPage() {
           <Link href="/" className="hover:underline">
             Home
           </Link>{" "}
-          /{" "}
-          <span className="text-gray-800">{blog.title}</span>
+          / <span className="text-gray-800">{blog.title}</span>
         </nav>
 
         <div className="grid grid-cols-1 max-w-7xl lg:grid-cols-[3fr_1px_1fr] gap-8">
@@ -172,27 +180,184 @@ export default function BlogPage() {
           </aside>
         </div>
       </div>
-      <style jsx global>{`
-        /* Custom scrollbar for the iframe */
-        .custom-iframe-scrollbar::-webkit-scrollbar {
-          width: 8px;
-          height: 8px;
-        }
 
-        .custom-iframe-scrollbar::-webkit-scrollbar-track {
-          background: #f1f1f1;
-          border-radius: 10px;
-        }
-
-        .custom-iframe-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, #4a90e2, #9013fe);
-          border-radius: 10px;
-        }
-
-        .custom-iframe-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, #3a78c2, #7a0edc);
-        }
-      `}</style>
+      {/* --- Assessment Criteria Section --- */}
+      <section className="mt-12 mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200 max-w-7xl mx-auto">
+        <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          Assessment Criteria
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm border border-gray-300">
+            <thead>
+              <tr className="bg-blue-100">
+                <th className="px-4 py-2 border-b text-left font-semibold">
+                  Criteria
+                </th>
+                <th className="px-4 py-2 border-b text-left font-semibold">
+                  Weighting
+                </th>
+                <th className="px-4 py-2 border-b text-left font-semibold">
+                  Elements
+                </th>
+                <th className="px-4 py-2 border-b text-left font-semibold">
+                  Points
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  rowSpan={3}
+                  className="px-4 py-2 border-b align-top font-medium"
+                >
+                  I. Content & Argumentation
+                </td>
+                <td rowSpan={3} className="px-4 py-2 border-b align-top">
+                  25%
+                </td>
+                <td className="px-4 py-2 border-b">
+                  Clarity of Argument – Logical, well-structured argument with a
+                  clear stance.
+                </td>
+                <td className="px-4 py-2 border-b">10%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Use of Evidence & Research – Arguments supported by credible
+                  sources and examples.
+                </td>
+                <td className="px-4 py-2 border-b">10%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Effective Use of Conjunctions – Coordinating, subordinating,
+                  and correlative conjunctions used correctly.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td
+                  rowSpan={3}
+                  className="px-4 py-2 border-b align-top font-medium"
+                >
+                  II. Project Planning & Collaboration
+                </td>
+                <td rowSpan={3} className="px-4 py-2 border-b align-top">
+                  20%
+                </td>
+                <td className="px-4 py-2 border-b">
+                  Defined Goals & Objectives – Clear purpose and intended
+                  outcomes of the project.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Collaboration & Teamwork – Effective teamwork, role
+                  distribution, and contributions from all members.
+                </td>
+                <td className="px-4 py-2 border-b">10%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Problem-Solving & Adaptability – Ability to address challenges
+                  and adapt as needed.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td
+                  rowSpan={3}
+                  className="px-4 py-2 border-b align-top font-medium"
+                >
+                  III. Blog Design & User Experience
+                </td>
+                <td rowSpan={3} className="px-4 py-2 border-b align-top">
+                  20%
+                </td>
+                <td className="px-4 py-2 border-b">
+                  Visual Appeal & Layout – Aesthetically pleasing,
+                  well-organized, and easy to navigate.
+                </td>
+                <td className="px-4 py-2 border-b">10%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Multimedia Integration – Effective use of images, graphics, or
+                  media elements for engagement.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Accessibility & Readability – Readable and accessible to a
+                  diverse audience.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td
+                  rowSpan={3}
+                  className="px-4 py-2 border-b align-top font-medium"
+                >
+                  IV. Reflection & Learning
+                </td>
+                <td rowSpan={3} className="px-4 py-2 border-b align-top">
+                  20%
+                </td>
+                <td className="px-4 py-2 border-b">
+                  Depth of Reflection – Insightful discussion of learning
+                  experiences and teamwork.
+                </td>
+                <td className="px-4 py-2 border-b">10%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Critical Analysis – Thoughtful critique of strengths and areas
+                  for improvement.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Connection to Real-World Issues – Relates topic to broader
+                  societal and ethical concerns.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td
+                  rowSpan={2}
+                  className="px-4 py-2 border-b align-top font-medium"
+                >
+                  V. Project Overview & Technological Integration
+                </td>
+                <td rowSpan={2} className="px-4 py-2 border-b align-top">
+                  15%
+                </td>
+                <td className="px-4 py-2 border-b">
+                  Clear Project Overview – Effective presentation of the
+                  project&apos;s purpose, audience, and context.
+                </td>
+                <td className="px-4 py-2 border-b">5%</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border-b">
+                  Technological Tools & Pedagogical Integration – Effective use
+                  of digital tools and teaching strategies.
+                </td>
+                <td className="px-4 py-2 border-b">10%</td>
+              </tr>
+              <tr className="bg-blue-50 font-bold">
+                <td colSpan={3} className="px-4 py-2 text-right">
+                  Total:
+                </td>
+                <td className="px-4 py-2">100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }
